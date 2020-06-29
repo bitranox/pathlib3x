@@ -169,7 +169,7 @@ after_success:
     - ${CMDPREFIX} codecov
     # codeclimate coverage upload
     - if [ "${TRAVIS_OS_NAME}" == 'windows' ]; then
-          CODECLIMATE_REPO_TOKEN=${CC_TEST_REPORTER_ID}";
+          CODECLIMATE_REPO_TOKEN="${CC_TEST_REPORTER_ID}";
           ${CMDPREFIX} ${python_command} -m pip install pip install codeclimate-test-reporter;
           ${CMDPREFIX} codeclimate-test-reporter;
       else
