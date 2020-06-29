@@ -140,7 +140,7 @@ script:
 
     # Bild Docs # TODO - testen
     - if [[ "${build_docs}" == "True" ]]; then
-          COMMAND="${CMDPREFIX} rst_include include ".docs/README_template.rst" "README.rst";
+          COMMAND="${CMDPREFIX} rst_include include "./.docs/README_template.rst" "./README.rst";
           ${lib_bash_banner} "running '${COMMAND}' - rebuild README.rst";
           if ${COMMAND}; then ${lib_bash_banner} "'${COMMAND}' - OK"; else ${lib_bash_banner_warning} "'${COMMAND}' - FAILED" && exit 1; fi
       else

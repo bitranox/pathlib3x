@@ -33,4 +33,4 @@ omit =
     venv/*
     tests/*
     setup.py
-    conf_pathlib3x.py
+    conf_pathlib3x_test.py
