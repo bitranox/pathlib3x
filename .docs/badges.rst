@@ -1,4 +1,4 @@
-|travis_build| |license| | pypi |
+|travis_build| |license| |pypi|
 
 |codecov| |better_code| |cc_maintain| |cc_issues| |cc_coverage| |snyk|
 
