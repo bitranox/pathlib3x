@@ -8,6 +8,8 @@ env:
         - python_command="python"
         - pip_command="python -m pip"
         - WINEDEBUG=fixme-all       # switch off wine fix me messages
+        - secure: "rd1r+HtbB1z1f5yDDgF3zTqbkp4H0m1OY0uHLB35GepE/0fO0t3t7erDZi8Lmi9YlM6qsgpaOoIQTMs7mF9pMQUey9A3kWHrwFHXuz+4LTbJR7i9vvdQDN4nQeijG5kWA6SH097452xHUsQAs3xoIDqEG5XbR+VKQDnNF2Jce37C9j9bku2/9yFZyanfRQbvRJoJidL4jiWn4ZD+LFw2yxDT/n8h7RfZZ5rdmTGDByW2yF9OzGqywpOADieBdb2zZIquTDEjBm52ZrAcfKXjrsFdscLn9iill13LBQ6rmS167eup2pHh1cKq2vy0IS0wHvyVrMufXGRrbs/t7Mq4ws5vRQfcCfaLqj8m49NmMaLVtDljwYvWpepFW3qfOLUQS/FvpKYOyJ9aKfhqeskGwUcmShQQEDQvXdV6UuDwOgauFO42q3n41uLllDq7xad2kkhtpk9CuoLA4DRZrZ2nUxougzBH0z8gPBZ1CYt830TNcBBQi9HEdCPnBhCNGYVZhNyMyUl9lzyfqt/7gDe0UiUi5QedFZ/nC44oMIx3/jHr1h2diRBAxlkQzoX5E1bjMKtQdWFI0HjOTk124zJHNos60Ay8tUUEW++QJ6craPu8jn5/qQn6IcwvwCMoR3OW+lRx6k1eusCSq4nnymg0C3jG5liQDPT6Bi7sV156X0k="
+        - secure: "O+0o+rCBF9YSt6qCc5pobAEicFt3VonzG11/vx+98LIo75GoR+8f5kqWlZGc329cuHJgD2O3JDBnIFHuWzq3iCjACNjwSgFyYUZJLZbVVOsrNdDWaqPdQP6FNEF3Y5206/FtBeH1MOkwKu3K9YZIIGEOSMNqf4U/eKGHUETHZKXJX/95KfFnvRA4jFh9jj+Hc+Mg+51D4g1RRbJ18vW2whHd7p5lKYlChou/MTEKgmQfBHBrQ4CMdxh/VTKU95iUeKTRo3NwuzL9+wOOWtO6c+QwNPJgvL9+NZTroviYfzqVd7iuBvmj5Tg13tKVoV3bm4RgLy5cB2VHq2JAAeBWJEE7zLX1NFntSxJSG4CKZ8MVPxvaVxZXwa8svOqfRfxe8yOfUYnW3kNvppruXrRQ/3lmLulcWN6XkH55yS+5zWSk+EvxrXNq8YuD9ztTmi9b/Ur2PwTAMJG4IVL0XSzrEGrmu2Yz0OQa7gUYNiJfOhgAaI4Y6lv6Kq9PAn3uQiLat8vY8PD1FU9j0KKL9xr1a5RrZwc448an8/T3LXmS39STaBBUzO7Fc6IHhkNaybh5yYAJUtVZ5jUwRrsPcVdzWfiI/JzVjR+Qnx/8Q3p+A4u+s2H78pnHoPKlqPyHFJxQD+GNah5jRze+BVbn86q5+LY55H37+NkYpHyn6RYGrAk="
 
 addons:
     apt:
@@ -136,9 +138,9 @@ script:
           ${lib_bash_banner_warning} "mypy typecheck --strict disabled on this build";
       fi
 
-    # Bild Docs # TODO - rst_include will be updated
-    - if [[ -f build_docs.py ]] && [[ "${build_docs}" == "True" ]]; then
-          COMMAND="${CMDPREFIX} ${python_command} build_docs.py bitranox/pathlib3x"
+    # Bild Docs # TODO - testen
+    - if [[ "${build_docs}" == "True" ]]; then
+          COMMAND="${CMDPREFIX} rst_include include ".docs/README_template.rst" "README.rst";
           ${lib_bash_banner} "running '${COMMAND}' - rebuild README.rst";
           if ${COMMAND}; then ${lib_bash_banner} "'${COMMAND}' - OK"; else ${lib_bash_banner_warning} "'${COMMAND}' - FAILED" && exit 1; fi
       else
@@ -178,9 +180,11 @@ after_success:
 
     # This works for sure - the Travis deploy is somehow buggy.
     # create the secret :
+    # pypi_password
+    # to create the secret :
     # cd /<repository>
-    # travis encrypt pypi_password=*****
-    # copy and paste the encrypted password in the project_conf.py
+    # sudo travis encrypt -r <github_account>/<repository> pypi_password=*****
+    # copy and paste the encrypted password in the PizzaCutter Config File
     - if [[ ${deploy_on_pypi} == "True" ]] && [[ -n ${TRAVIS_TAG} ]]; then
           ${lib_bash_banner} "Deploy on PyPi";
           export travis_deploy="True";
@@ -195,6 +199,6 @@ after_success:
 notifications:
   email:
     recipients:
-        - rnowotny@rotek.at
+        - bitranox@gmail.com
     on_success: never # default: change
     on_failure: always # default: always
