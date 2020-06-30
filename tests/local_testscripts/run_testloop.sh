@@ -8,14 +8,21 @@ install_dependencies
 
 project_root_dir="${project_root_dir}"
 
+do_mypy_tests="False"  # this is set py PizzaCutter
+
+
 function pytest_loop {
 
     while true; do
         banner "Project Root Dir: ${project_root_dir}"
         cleanup
-        if ! pytest_codestyle_mypy; then continue; fi
-        if ! mypy_strict; then continue; fi
-        if ! mypy_strict_with_imports; then continue; fi
+        if ! pytest; then continue; fi
+
+        if [ "${do_mypy_tests}" == "True" ]; then
+            if ! mypy_strict; then continue; fi
+            if ! mypy_strict_with_imports; then continue; fi
+        fi
+
         if ! install_pip_requirements_venv; then continue; fi
         if ! setup_install_venv; then continue; fi
         if ! test_commandline_interface_venv; then continue; fi

@@ -5,12 +5,10 @@ pathlib3x
 
 .. include:: ./description.rst
 
+----
 
-
-
-automated tests, Travis Matrix, Documentation, Badges for this Project are managed with `PizzaCutter <https://github
-.com/bitranox/PizzaCutter>`_ - check it out
-
+automated tests, Travis Matrix, Documentation, Badges, etc. are managed with `PizzaCutter <https://github
+.com/bitranox/PizzaCutter>`_ (cookiecutter on steroids)
 
 .. include:: ./tested_under.rst
 

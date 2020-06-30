@@ -88,13 +88,14 @@ A very few of own extensions to that pathlib will be added probably over time.
 
 If You have some nice features for pathlib, let me know - I will consider to integrate them.
 
-automated tests, Travis Matrix, Documentation, Badges for this Project are managed with `PizzaCutter <https://github
-.com/bitranox/PizzaCutter>`_ - check it out
+----
+
+automated tests, Travis Matrix, Documentation, Badges, etc. are managed with `PizzaCutter <https://github
+.com/bitranox/PizzaCutter>`_ (cookiecutter on steroids)
 
 supports python 3.6-3.8, pypy3 and possibly other dialects.
 
-`100% code coverage <https://codecov.io/gh/bitranox/pathlib3x>`_, mypy static type checking, tested under `Linux, macOS, Windows and Wine
-<https://travis-ci.org/bitranox/pathlib3x>`_, automatic daily builds  and monitoring
+`100% (for my added functions) code coverage <https://codecov.io/gh/bitranox/pathlib3x>`_, tested under `Linux, macOS, Windows <https://travis-ci.org/bitranox/pathlib3x>`_, automatic daily builds and monitoring
 
 ----
 

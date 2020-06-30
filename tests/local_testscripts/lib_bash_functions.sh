@@ -7,7 +7,7 @@ sudo_askpass="$(command -v ssh-askpass)"
 export SUDO_ASKPASS="${sudo_askpass}"
 export NO_AT_BRIDGE=1 # get rid of (ssh-askpass:25930): dbind-WARNING **: 18:46:12.019: Couldn't register with accessibility bus: Did not receive a reply.
 
-tests_dir="${own_dir}"
+tests_dir="$(dirname "${own_dir}")"                       # one level up
 project_root_dir="$(dirname "${tests_dir}")"              # one level up
 export PYTHONPATH="${project_root_dir}:/media/srv-main-softdev/rotek-apps/lib:${PYTHONPATH}"
 
@@ -48,27 +48,24 @@ function clean_caches() {
 }
 
 function install_virtualenv_debian() {
-  clr_green "installing virtualenv"
-  sudo apt-get install python3-virtualenv
+  if ! is_package_installed python3-virtualenv; then
+      banner "python3-virtualenv is not installed, I will install it for You"
+      wait_for_enter
+      install_package_if_not_present python3-virtualenv
+  fi
 }
 
 function install_test_requirements() {
   # this should be already installed, but it happens that pycharm ide venv does not have it
-  clr_green "install_requirements"
+  clr_green "installing/updating pip, setuptools, wheel"
   sudo chmod -R 0777 ~/.eggs # make already installed eggs accessible, just in case they were installed as root
 
   python3 -m pip install --upgrade pip
   python3 -m pip install --upgrade setuptools
   python3 -m pip install --upgrade wheel
 
-  # we dont istall project requirements - that should be ONLY installed in the venv !
-  # if test -f "${project_root_dir}/requirements.txt"; then
-  #   python3 -m pip install --upgrade -r "${project_root_dir}/requirements.txt"
-  # else
-  #   clr_red "requirements.txt not found"
-  # fi
-
   if test -f "${project_root_dir}/requirements_test.txt"; then
+    clr_green "installing/updating test requirements from \"requirements_test.txt\""
     python3 -m pip install --upgrade -r "${project_root_dir}/requirements_test.txt"
   else
     clr_red "requirements_test.txt not found"
@@ -76,7 +73,7 @@ function install_test_requirements() {
 }
 
 function install_dependencies() {
-  clr_green "installing dependencies"
+  banner "installing dependencies"
   install_virtualenv_debian
   install_test_requirements
 }
@@ -99,10 +96,10 @@ function cleanup() {
   trap 2      # enable Ctrl+C
 }
 
-function pytest_codestyle_mypy() {
-  my_banner "pytest --pycodestyle --mypy"
+function pytest() {
+  my_banner "running pytest with settings from pytest.ini, mypy.ini and conftest.py"
   if ! python3 -m pytest "${project_root_dir}" --disable-warnings; then
-    my_banner_warning "pytest --pycodestyle --mypy ERROR"
+    my_banner_warning "pytest ERROR"
     beep
     sleep "${sleeptime_on_error}"
     return 1

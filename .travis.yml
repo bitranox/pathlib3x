@@ -39,25 +39,42 @@ matrix:
           - /usr/local/lib_bash/lib_retry.sh retry choco install python3
           - export PATH="/c/Python38:/c/Python38/Scripts:$PATH"
 
-    - os: linux
-      language: python
-      python: '3.6'
 
     - os: linux
       language: python
-      python: '3.7'
-
-    - os: linux
-      language: python
-      python: '3.8'
+      python: "3.6"
       before_install:
-          - export mypy_strict_typecheck="True"
+          - export mypy_strict_typecheck="False"
+          - export build_docs="False"
+          - export deploy_on_pypi="False"
+
+
+    - os: linux
+      language: python
+      python: "3.7"
+      before_install:
+          - export mypy_strict_typecheck="False"
+          - export build_docs="False"
+          - export deploy_on_pypi="False"
+
+
+    - os: linux
+      language: python
+      python: "3.8"
+      before_install:
+          - export mypy_strict_typecheck="False"
           - export build_docs="True"
           - export deploy_on_pypi="True"
 
+
     - os: linux
       language: python
-      python: '3.8-dev'
+      python: "3.8-dev"
+      before_install:
+          - export mypy_strict_typecheck="False"
+          - export build_docs="False"
+          - export deploy_on_pypi="False"
+
 
     - os: linux
       language: python
@@ -138,7 +155,7 @@ script:
           ${lib_bash_banner_warning} "mypy typecheck --strict disabled on this build";
       fi
 
-    # Bild Docs # TODO - testen
+    # Bild Docs
     - if [[ "${build_docs}" == "True" ]]; then
           COMMAND="${CMDPREFIX}" rst_include include "./.docs/README_template.rst" "./README.rst";
           ${lib_bash_banner} "running '${COMMAND}' - rebuild README.rst";
