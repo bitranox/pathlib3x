@@ -127,17 +127,17 @@ Installation and Upgrade
     python -m pip --upgrade setuptools
     python -m pip --upgrade wheel
 
-- to install the latest RELEASE from PyPi via pip (recommended):
+- to install the latest release from PyPi via pip (recommended):
 
 .. code-block:: bash
 
-    # install latest Release from PyPi
+    # install latest release from PyPi
     python -m pip install --upgrade pathlib3x
 
-    # test latest Release from PyPi without installing (can be skipped)
+    # test latest release from PyPi without installing (can be skipped)
     python -m pip install pathlib3x --install-option test
 
-- to install the latest development VERSION from github via pip:
+- to install the latest development version from github via pip:
 
 
 .. code-block:: bash
@@ -160,7 +160,7 @@ Installation and Upgrade
     # for the latest Release on pypi:
     pathlib3x
 
-    # for the latest Development Version :
+    # for the latest development version :
     pathlib3x @ git+https://github.com/bitranox/pathlib3x.git
 
     # to install and upgrade all modules mentioned in requirements.txt:
@@ -168,7 +168,7 @@ Installation and Upgrade
 
 
 
-- to install the latest Development Version from source code:
+- to install the latest development version from source code:
 
 .. code-block:: bash
 

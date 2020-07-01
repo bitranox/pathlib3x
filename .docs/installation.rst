@@ -1,57 +1,46 @@
-Before You start, its highly recommended to update pip and setup tools:
+- Before You start, its highly recommended to update pip and setup tools:
 
 
 .. code-block:: bash
 
-    python3 -m pip --upgrade pip
-    python3 -m pip --upgrade setuptools
-    python3 -m pip --upgrade wheel
+    python -m pip --upgrade pip
+    python -m pip --upgrade setuptools
+    python -m pip --upgrade wheel
 
+.. include:: ./installation_via_pypi.rst
 
-install latest version with pip (recommended):
+- to install the latest development version from github via pip:
+
 
 .. code-block:: bash
-
-    # upgrade all dependencies regardless of version number (PREFERRED)
-    python3 -m pip install --upgrade git+https://github.com/bitranox/pathlib3x.git --upgrade-strategy eager
-
-    # test without installing (can be skipped)
-    python3 -m pip install git+https://github.com/bitranox/pathlib3x.git --install-option test
 
     # normal install
-    python3 -m pip install --upgrade git+https://github.com/bitranox/pathlib3x.git
+    python -m pip install --upgrade git+https://github.com/bitranox/pathlib3x.git
+
+    # to test without installing (can be skipped)
+    python -m pip install git+https://github.com/bitranox/pathlib3x.git --install-option test
+
+    # to install and upgrade all dependencies regardless of version number
+    python -m pip install --upgrade git+https://github.com/bitranox/pathlib3x.git --upgrade-strategy eager
 
 
-install latest pypi Release (if there is any):
-
-.. code-block:: bash
-
-    # latest Release from pypi
-    python3 -m pip install --upgrade pathlib3x
-
-    # test without installing (can be skipped)
-    python3 -m pip install pathlib3x --install-option test
-
-    # normal install
-    python3 -m pip install --upgrade pathlib3x
-
-
-
-include it into Your requirements.txt:
+- include it into Your requirements.txt:
 
 .. code-block:: bash
 
     # Insert following line in Your requirements.txt:
-    # for the latest Release on pypi (if any):
+    # for the latest Release on pypi:
     pathlib3x
-    # for the latest Development Version :
+
+    # for the latest development version :
     pathlib3x @ git+https://github.com/bitranox/pathlib3x.git
 
     # to install and upgrade all modules mentioned in requirements.txt:
-    python3 -m pip install --upgrade -r /<path>/requirements.txt
+    python -m pip install --upgrade -r /<path>/requirements.txt
 
 
-Install from source code:
+
+- to install the latest development version from source code:
 
 .. code-block:: bash
 
@@ -59,32 +48,11 @@ Install from source code:
     $ git clone https://github.com/bitranox/pathlib3x.git
     $ cd pathlib3x
 
-    # test without installing (can be skipped)
-    python3 setup.py test
+    # to test without installing (can be skipped)
+    python setup.py test
 
     # normal install
-    python3 setup.py install
+    python setup.py install
 
 
-via makefile:
-
-if You are on linux, makefiles are a very convenient way to install. Here we can do much more, like installing virtual environment, clean caches and so on.
-This is still in development and not recommended / working at the moment:
-
-.. code-block:: shell
-
-    # from Your shell's homedirectory:
-    $ git clone https://github.com/bitranox/pathlib3x.git
-    $ cd pathlib3x
-
-    # to run the tests:
-    $ make test
-
-    # to install the package
-    $ make install
-
-    # to clean the package
-    $ make clean
-
-    # uninstall the package
-    $ make uninstall
+.. include:: ./installation_via_makefile.rst
