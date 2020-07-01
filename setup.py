@@ -83,7 +83,7 @@ if is_travis_deploy() and is_tagged_commit():
 
 if __name__ == '__main__':
     setup(name='pathlib3x',
-          version='0.1.0',
+          version='0.1.1',
           url='https://github.com/bitranox/pathlib3x',
           packages=find_packages(),
           package_data={'pathlib3x': []},
