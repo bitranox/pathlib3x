@@ -898,6 +898,24 @@ class PurePath(object):
         return self._from_parsed_parts(self._drv, self._root,
                                        self._parts[:-1] + [name])
 
+    def append_suffix(self, suffix):
+        """
+        Non-Standard Pathlib Method, added by bitranox. The suffix has to start with '.'
+        Return a new path with the file suffix appended.
+        If the given suffix is an empty string, do not append anything
+
+        """
+        f = self._flavour
+        if f.sep in suffix or f.altsep and f.altsep in suffix:
+            raise ValueError("Invalid suffix %r" % (suffix,))
+        if suffix and not suffix.startswith('.') or suffix == '.':
+            raise ValueError("Invalid suffix %r" % (suffix))
+        name = self.name
+        if not name:
+            raise ValueError("%r has an empty name" % (self,))
+        name = name + suffix
+        return self._from_parsed_parts(self._drv, self._root, self._parts[:-1] + [name])
+
     def relative_to(self, *other):
         """Return the relative path to another path identified by the passed
         arguments.  If the operation is not possible (because this is not

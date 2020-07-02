@@ -17,6 +17,8 @@ read -r -p 'variable value :' var_value
 cd "${project_root_dir}"||exit
 travis encrypt "${var_name}=${var_value}" --no-interactive > "${own_dir}/secrets/${var_name}.secret.txt"
 
-banner "You need to run PizzaCutter to import that secret into travis.yml"
+banner "the secret for \"${var_name}\" was created and exported to:
+${own_dir}/secrets/${var_name}.secret.txt.
+it will be imported to travis.yml the next time You run PizzaCutter"
 wait_for_enter
 cd "${save_dir}" || exit

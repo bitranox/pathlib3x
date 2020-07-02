@@ -1,6 +1,6 @@
-Backport (actually a blunt copy) of python 3.8 pathlib for python 3.6, 3.7 with a few tweaks to make it compatible.
+Backport of python 3.10.0a0 (beta) pathlib for python 3.6, 3.7, 3.8, 3.9 with a few tweaks to make it compatible.
 
-this will be updated periodically to have the latest version of pathlib available on 3.6, 3.7 and probably others.
+this will be updated periodically to have the latest version of pathlib available on 3.6, 3.7, 3.8, 3.9 and probably others.
 
 WHY pathlib3x ?
 ===============

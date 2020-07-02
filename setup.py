@@ -39,7 +39,7 @@ def strip_links_from_required(l_required: List[str]) -> List[str]:
     return l_req_stripped
 
 
-long_description = 'backport of latest pathlib to python 3.6, 3.7 with a few extensions'   # will be overwritten with long_description if exists !
+long_description = 'backport of pathlib 3.10 to python 3.6, 3.7, 3.8, 3.9 with a few extensions'   # will be overwritten with long_description if exists !
 path_readme = pathlib.Path(__file__).parent / 'README.rst'
 
 if path_readme.exists():
@@ -83,11 +83,11 @@ if is_travis_deploy() and is_tagged_commit():
 
 if __name__ == '__main__':
     setup(name='pathlib3x',
-          version='0.1.1',
+          version='0.2.0',
           url='https://github.com/bitranox/pathlib3x',
           packages=find_packages(),
           package_data={'pathlib3x': []},
-          description='backport of latest pathlib to python 3.6, 3.7 with a few extensions',
+          description='backport of pathlib 3.10 to python 3.6, 3.7, 3.8, 3.9 with a few extensions',
           long_description=long_description,
           long_description_content_type='text/x-rst',
           author='Robert Nowotny',

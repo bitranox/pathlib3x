@@ -2,7 +2,8 @@
 
    Usage: pathlib3x [OPTIONS] COMMAND [ARGS]...
 
-     backport of latest pathlib to python 3.6, 3.7 with a few extensions
+     backport of pathlib 3.10 to python 3.6, 3.7, 3.8, 3.9 with a few
+     extensions
 
    Options:
      --version   Show the version and exit.
