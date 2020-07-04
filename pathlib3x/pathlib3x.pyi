@@ -105,7 +105,7 @@ OpenTextMode = Literal[
     "Utr",
 ]
 
-_P = TypeVar("_P", bound=PurePath)
+_P = TypeVar("_P", bound="PurePath")
 
 _PurePathBase = os.PathLike[str]
 
