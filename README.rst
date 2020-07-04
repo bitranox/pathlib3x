@@ -93,6 +93,8 @@ If You have some nice features for pathlib, let me know - I will consider to int
 automated tests, Travis Matrix, Documentation, Badges, etc. are managed with `PizzaCutter <https://github
 .com/bitranox/PizzaCutter>`_ (cookiecutter on steroids)
 
+Python version required: 3.6.0 or newer
+
 tested on linux "bionic" with python 3.6, 3.7, 3.8, 3.8-dev, pypy3
 
 `100% (for my added functions) code coverage <https://codecov.io/gh/bitranox/pathlib3x>`_, mypy static type checking ,tested under `Linux, macOS, Windows <https://travis-ci.org/bitranox/pathlib3x>`_, automatic daily builds and monitoring
@@ -401,7 +403,8 @@ Changelog
 
 0.3.0
 -----
-2020-07-04 : added functions, include stub file for typing
+2020-07-04 : added functions, include stub file for typing, setup python_requires
+    - added python_requires in setup.py
     - include type stub file, its fully type hinted now
     - added PurePath.replace_parts
     - added Path.copy

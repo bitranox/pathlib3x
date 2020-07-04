@@ -6,11 +6,11 @@ see : https://docs.python.org/3.8/distutils/setupscript.html
 import codecs
 import os
 import pathlib
+import sys
 from typing import List
 
 from setuptools import setup                # type: ignore
 from setuptools import find_packages
-
 
 def is_travis_deploy() -> bool:
     if 'travis_deploy' in os.environ:
@@ -83,7 +83,7 @@ if is_travis_deploy() and is_tagged_commit():
 
 if __name__ == '__main__':
     setup(name='pathlib3x',
-          version='0.2.0',
+          version='0.3.0',
           url='https://github.com/bitranox/pathlib3x',
           packages=find_packages(),
           package_data={'pathlib3x': ['py.typed', '*.pyi']},
@@ -101,5 +101,6 @@ if __name__ == '__main__':
           # minimally needs to run the setup script, dependencies needs also to put here for "setup.py install test"
           # dependencies must not be put here for pip install
           setup_requires=setup_requires,
-          zip_save=False
+          zip_save=False,
+          python_requires=">=3.6.0"
           )

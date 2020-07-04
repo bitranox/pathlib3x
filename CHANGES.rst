@@ -7,7 +7,8 @@ Changelog
 
 0.3.0
 -----
-2020-07-04 : added functions, include stub file for typing
+2020-07-04 : added functions, include stub file for typing, setup python_requires
+    - added python_requires in setup.py
     - include type stub file, its fully type hinted now
     - added PurePath.replace_parts
     - added Path.copy

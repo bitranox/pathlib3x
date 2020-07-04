@@ -10,6 +10,8 @@ pathlib3x
 automated tests, Travis Matrix, Documentation, Badges, etc. are managed with `PizzaCutter <https://github
 .com/bitranox/PizzaCutter>`_ (cookiecutter on steroids)
 
+Python version required: 3.6.0 or newer
+
 .. include:: ./tested_under.rst
 
 ----

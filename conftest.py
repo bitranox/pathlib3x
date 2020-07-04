@@ -27,10 +27,5 @@ def pytest_cmdline_preparse(args: List[str]) -> None:
         additional_arg = ["--mypy"]
         args[:] = additional_arg + args
 
-    # for python 3.x use --pycodestyle, for python 2.7 use --pep8
-    if sys.version_info <= (3, 5):
-        additional_arg = []
-        args[:] = additional_arg + args
-    else:
-        additional_arg = []
-        args[:] = additional_arg + args
+    additional_arg = []
+    args[:] = additional_arg + args
