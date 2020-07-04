@@ -1,15 +1,17 @@
 import os
 import pathlib3x as pathlib
+import pytest               # type: ignore
+from typing import Any
 import unittest
 
 
-def test_pathlib():
-    """
-    >>> test_pathlib()
-    """
-    pathlib.Path('__not_existing__').unlink(missing_ok=True)
-    pathlib.Path('.').glob('**/*')
-    pathlib.Path('.').rglob('**/*')
+class TestPathlibFunctions(unittest.TestCase):
+
+    def test_unlink_missing_ok(self):
+        pathlib.Path('__not_existing__').unlink(missing_ok=True)
+
+    def test_glob(self):
+        pathlib.Path('.').glob('**/*')
 
 
 class TestAppendSuffix(unittest.TestCase):
@@ -51,20 +53,115 @@ class TestAppendSuffix(unittest.TestCase):
             self.assertRaises(ValueError, path_test.append_suffix, suffix_with_altsep)
 
 
-def test_append_suffix():
-    """ test non-standard bitranox method append_suffix
+@pytest.fixture(params=[pathlib.PurePath(''), pathlib.PurePath('./test/Test1/test2/test3'), pathlib.PurePosixPath('/test/Test1/test2/test3'),
+                        pathlib.PureWindowsPath('C:\\test\\Test1/test2/test3')],
+                ids=['Empty', 'Relative', 'PosixAbsolute', 'WindowsAbsolute'])
+def source_path(request: Any) -> pathlib.PurePath:
+    return request.param
 
-    >>> test_append_suffix()
+
+@pytest.fixture(params=[pathlib.PurePath(''), pathlib.PurePath('Test1/test2'), pathlib.PurePath('test1/test2'), pathlib.PurePath('test/test'),
+                pathlib.PurePosixPath('/test/Test1'), pathlib.PurePosixPath('/test/test1'),
+                pathlib.PureWindowsPath('C:\\test\\Test1'), pathlib.PureWindowsPath('c:\\test\\test1'), pathlib.PureWindowsPath('c:\\test\\test')],
+                ids=['Empty', 'RelativeMatch', 'RelativeWinMatch', 'RelativeNoMatch',
+                     'PosixAbsoluteMatch', 'PosixAbsoluteNoMatch',
+                     'WinAbsoluteMatch', 'WinAbsoluteMatchLower', 'WinAbsoluteNoMatch'])
+def old(request: Any) -> pathlib.PurePath:
+    return request.param
+
+
+def test_replace_parts(source_path, old):
+    new = pathlib.PurePath('new1/new2/new3/new4')
+    source_path.replace_parts(old, new)
+    if source_path == pathlib.PurePath('') or old == pathlib.PurePath(''):
+        assert source_path.replace_parts(old, new) == source_path
+
+
+def test_replace_parts_doctest():
     """
 
-    # setup
-    path_without_suffix = pathlib.Path('path_without_suffix')
-    path_with_suffix = pathlib.Path('path_with.suffix')
+    >>> new = pathlib.PurePath('new1/new2/new3/new4')
 
-    # test OK
-    path_without_suffix_appended = path_without_suffix.append_suffix('.test')
-    path_with_suffix_appended = path_with_suffix.append_suffix('.test')
-    assert path_without_suffix_appended.suffix == '.test'
-    assert path_without_suffix_appended.suffixes == ['.test']
-    assert path_with_suffix_appended.suffix == '.test'
-    assert path_with_suffix_appended.suffixes == ['.suffix', '.test']
+    >>> # Test Source Path = relative PurePath
+    >>> source_path = pathlib.PurePath('./test/Test1/test2/test3')
+
+    >>> source_path.replace_parts(pathlib.PurePath('Test1/test2'), new)
+    Pure...Path('test/new1/new2/new3/new4/test3')
+
+    >>> source_path.replace_parts(pathlib.PurePath('test1/test2'), new)
+    Pure...Path('test/Test1/test2/test3')
+
+    >>> source_path.replace_parts(pathlib.PurePath('test/test'), new)
+    Pure...Path('test/Test1/test2/test3')
+
+    >>> source_path.replace_parts(pathlib.PurePosixPath('/test/Test1'), new)
+    Pure...Path('test/Test1/test2/test3')
+
+    >>> source_path.replace_parts(pathlib.PurePosixPath('/test/test1'), new)
+    Pure...Path('test/Test1/test2/test3')
+
+    >>> # Test Source Path = absolute PosixPath
+    >>> source_path = pathlib.PurePosixPath('/test/Test1/test2/test3')
+
+    >>> source_path.replace_parts(pathlib.PurePath('Test1/test2'), new)
+    Pure...Path('/test/new1/new2/new3/new4/test3')
+
+    >>> source_path.replace_parts(pathlib.PurePath('test1/test2'), new)
+    Pure...Path('/test/Test1/test2/test3')
+
+    >>> source_path.replace_parts(pathlib.PurePath('test/test'), new)
+    Pure...Path('/test/Test1/test2/test3')
+
+    >>> source_path.replace_parts(pathlib.PurePosixPath('/test/Test1'), new)
+    Pure...Path('new1/new2/new3/new4/test2/test3')
+
+    >>> source_path.replace_parts(pathlib.PurePosixPath('/test/test1'), new)
+    Pure...Path('/test/Test1/test2/test3')
+
+    >>> # Test Source Path = absolute WindowsPath
+    >>> source_path = pathlib.PureWindowsPath(r'C:\\test\\Test1/test2/test3')
+
+    >>> source_path.replace_parts(pathlib.PurePath('Test1/test2'), new)
+    PureWindowsPath('C:/test/new1/new2/new3/new4/test3')
+
+    >>> # this will be replaced because of windows case folding, it is correct !
+    >>> source_path.replace_parts(pathlib.PurePath('test1/test2'), new)
+    PureWindowsPath('C:/test/new1/new2/new3/new4/test3')
+
+    >>> source_path.replace_parts(pathlib.PurePath('test/test'), new)
+    PureWindowsPath('C:/test/Test1/test2/test3')
+
+    >>> source_path.replace_parts(pathlib.PurePosixPath('/test/Test1'), new)
+    PureWindowsPath('C:/test/Test1/test2/test3')
+
+    >>> source_path.replace_parts(pathlib.PurePosixPath('/test/test1'), new)
+    PureWindowsPath('C:/test/Test1/test2/test3')
+
+    # this might be unexpected but correct - we make a relative path out of an absolute path
+    >>> source_path.replace_parts(pathlib.PureWindowsPath(r'C:\\test\\Test1'), new)
+    PureWindowsPath('new1/new2/new3/new4/test2/test3')
+
+    >>> source_path.replace_parts(pathlib.PureWindowsPath(r'C:\\test\\Test1'), pathlib.PureWindowsPath(r'd:\\new'))
+    PureWindowsPath('d:/new/test2/test3')
+
+    >>> source_path.replace_parts(pathlib.PureWindowsPath(r'c:\\test\\test1'), pathlib.PureWindowsPath(r'D:\\new'))
+    PureWindowsPath('D:/new/test2/test3')
+
+    >>> source_path.replace_parts(pathlib.PureWindowsPath(r'c:\\test\\test'), pathlib.PureWindowsPath(r'D:\\new'))
+    PureWindowsPath('C:/test/Test1/test2/test3')
+
+    >>> # check count
+    >>> pathlib.PurePath('test/test/test').replace_parts(pathlib.PurePath('test/test'), pathlib.PurePath('testnew/testnew'), 3)
+    Pure...Path('testnew/testnew/test')
+    >>> pathlib.PurePath('test/test/test').replace_parts(pathlib.PurePath('test/test'), pathlib.PurePath('testnew/testnew'), 1)
+    Pure...Path('testnew/testnew/test')
+    >>> pathlib.PurePath('test/test/test').replace_parts(pathlib.PurePath('test/test'), pathlib.PurePath('testnew/testnew'), 0)
+    Pure...Path('test/test/test')
+    >>> pathlib.PurePath('test/test/test').replace_parts(pathlib.PurePath('test'), pathlib.PurePath('testnew/testnew'), 1)
+    Pure...Path('testnew/testnew/test/test')
+    >>> pathlib.PurePath('test').replace_parts(pathlib.PurePath('test'), pathlib.PurePath('testnew/testnew'), 1)
+    Pure...Path('testnew/testnew')
+
+
+    """
+    pass

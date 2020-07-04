@@ -95,7 +95,7 @@ automated tests, Travis Matrix, Documentation, Badges, etc. are managed with `Pi
 
 tested on linux "bionic" with python 3.6, 3.7, 3.8, 3.8-dev, pypy3
 
-`100% (for my added functions) code coverage <https://codecov.io/gh/bitranox/pathlib3x>`_, tested under `Linux, macOS, Windows <https://travis-ci.org/bitranox/pathlib3x>`_, automatic daily builds and monitoring
+`100% (for my added functions) code coverage <https://codecov.io/gh/bitranox/pathlib3x>`_, mypy static type checking ,tested under `Linux, macOS, Windows <https://travis-ci.org/bitranox/pathlib3x>`_, automatic daily builds and monitoring
 
 ----
 
@@ -229,8 +229,107 @@ PurePath.append_suffix(suffix)
     PureWindowsPath('README.txt')
 
 
-Caveats
-=======
+PurePath.replace_parts(old, new, count=-1)
+    Return a new Path with parts replaced. If the Original Part or old has no parts, the Original Path will be returned.
+    On Windows the replacement is not case sensitive because of case folding on drives, directory and filenames.
+    You can also replace absolute paths with relative paths what is quite handy - just be aware that the results might
+    look unexpected, especially on Windows.
+
+    if the Original Path is resolved, You should probably also resolve the old and new paths - because if symlinks are involved,
+    the results might be unexpected.
+
+.. code-block:: python
+
+    >>> p = PureWindowsPath('c:/Downloads/pathlib.tar.gz')
+    >>> p.replace_parts(PureWindowsPath('C:/downloads'), PureWindowsPath('D:/uploads'))
+    PureWindowsPath('D:/uploads/pathlib.tar.gz')
+
+    # handy to replace source directories with target directories on copy or move operations :
+    >>> source_dir = pathlib.Path('c:/source_dir')
+    >>> target_dir = pathlib.Path('c:/target_dir')
+    >>> source_files = source_dir.glob('**/*')
+    >>> for source in source_files:
+            target = source.replace_parts(source_dir, target_dir)
+    ...     shutil.copy(str(source), str(target))
+
+    # this will always return PureWindowsPath(), because PureWindowsPath('.') has no parts to replace
+    >>> p = PureWindowsPath('.')
+    >>> p.replace_parts(PureWindowsPath('.'), PureWindowsPath('test'))
+    PureWindowsPath()
+
+    # looks unexpected but is correct, since PureWindowsPath('/uploads') is a relative path in Windows
+    >>> p = PureWindowsPath('c:/Downloads/pathlib.tar.gz')
+    >>> p.replace_parts(PureWindowsPath('C:/downloads'), PureWindowsPath('/uploads'))
+    PureWindowsPath('uploads/pathlib.tar.gz')
+
+
+Path.copy(target, follow_symlinks)
+    wraps shutil.copy, see: https://docs.python.org/3/library/shutil.html
+
+.. code-block:: python
+
+    >>> s = Path('c:/Downloads/pathlib.tar.gz')
+    >>> t = PureWindowsPath('c:/Downloads/pathlib.tar.gz.backup')
+    >>> s.copy(t)
+
+Path.copy2(target, follow_symlinks=True)
+    wraps shutil.copy2, see: https://docs.python.org/3/library/shutil.html
+
+.. code-block:: python
+
+    >>> s = Path('c:/Downloads/pathlib.tar.gz')
+    >>> t = PureWindowsPath('c:/Downloads/pathlib.tar.gz.backup')
+    >>> s.copy2(t)
+
+Path.copyfile(target, follow_symlinks)
+    wraps shutil.copyfile, see: https://docs.python.org/3/library/shutil.html
+
+.. code-block:: python
+
+    >>> s = Path('c:/Downloads/pathlib.tar.gz')
+    >>> t = PureWindowsPath('c:/Downloads/pathlib.tar.gz.backup')
+    >>> s.copyfile(t)
+
+Path.copymode(target, follow_symlinks=True)
+    wraps shutil.copymode, see: https://docs.python.org/3/library/shutil.html
+
+.. code-block:: python
+
+    >>> s = Path('c:/Downloads/pathlib.tar.gz')
+    >>> t = PureWindowsPath('c:/Downloads/pathlib.tar.gz.backup')
+    >>> s.copymode(t)
+
+Path.copystat(target, follow_symlinks=True)
+    wraps shutil.copystat, see: https://docs.python.org/3/library/shutil.html
+
+.. code-block:: python
+
+    >>> s = Path('c:/Downloads/pathlib.tar.gz')
+    >>> t = PureWindowsPath('c:/Downloads/pathlib.tar.gz.backup')
+    >>> s.copystat(t)
+
+Path.copytree(target, symlinks=False, ignore=None, copy_function=copy2, ignore_dangling_symlinks=True, dirs_exists_ok=False)
+    wraps shutil.copytree, see: https://docs.python.org/3/library/shutil.html
+
+    dirs_exists_ok=True will raise a TypeError on Python Versions < 3.8
+
+.. code-block:: python
+
+    >>> s = Path('c:/Downloads')
+    >>> t = PureWindowsPath('c:/temp/Backups')
+    >>> s.copytree(t)
+
+Path.rmtree(ignore_errors=False, onerror=None)
+    wraps shutil.rmtree, see: https://docs.python.org/3/library/shutil.html
+
+.. code-block:: python
+
+    >>> p = Path('c:/Downloads/old')
+    >>> p.rmtree()
+
+
+Caveats of pathlib3x
+====================
 
 .. code-block::
 

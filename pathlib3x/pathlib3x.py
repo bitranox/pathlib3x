@@ -1,6 +1,11 @@
+# bitranox addon
 # make sure that our instance is 'pathlib.Path' not  'pathlib3x.Path' if programs expect an instance of pathlib.Path
-__name__='pathlib'
+__name__ = 'pathlib'
+import inspect
+import shutil
+# /bitranox addon
 
+# Original Pathlib imports
 import fnmatch
 import functools
 import io
@@ -15,6 +20,10 @@ from operator import attrgetter
 from stat import S_ISDIR, S_ISLNK, S_ISREG, S_ISSOCK, S_ISBLK, S_ISCHR, S_ISFIFO
 from urllib.parse import quote_from_bytes as urlquote_from_bytes
 
+# bitranox addon
+if sys.version_info < (3, 6):
+    raise ImportError('pathlib3x is only compatible with Python 3.6 or newer')
+# /bitranox addon
 
 supports_symlinks = True
 if os.name == 'nt':
@@ -898,24 +907,6 @@ class PurePath(object):
         return self._from_parsed_parts(self._drv, self._root,
                                        self._parts[:-1] + [name])
 
-    def append_suffix(self, suffix):
-        """
-        Non-Standard Pathlib Method, added by bitranox. The suffix has to start with '.'
-        Return a new path with the file suffix appended.
-        If the given suffix is an empty string, do not append anything
-
-        """
-        f = self._flavour
-        if f.sep in suffix or f.altsep and f.altsep in suffix:
-            raise ValueError("Invalid suffix %r" % (suffix,))
-        if suffix and not suffix.startswith('.') or suffix == '.':
-            raise ValueError("Invalid suffix %r" % (suffix))
-        name = self.name
-        if not name:
-            raise ValueError("%r has an empty name" % (self,))
-        name = name + suffix
-        return self._from_parsed_parts(self._drv, self._root, self._parts[:-1] + [name])
-
     def relative_to(self, *other):
         """Return the relative path to another path identified by the passed
         arguments.  If the operation is not possible (because this is not
@@ -1041,6 +1032,68 @@ class PurePath(object):
             if not fnmatch.fnmatchcase(part, pat):
                 return False
         return True
+
+    # #######################################################
+    # PurePath non-standard methods added by bitranox
+    # #######################################################
+    def append_suffix(self, suffix):
+        """
+        Non-Standard Pathlib Method, added by bitranox. The suffix has to start with '.'
+        Return a new path with the file suffix appended.
+        If the given suffix is an empty string, do not append anything
+
+        """
+        f = self._flavour
+        if f.sep in suffix or f.altsep and f.altsep in suffix:
+            raise ValueError("Invalid suffix %r" % (suffix,))
+        if suffix and not suffix.startswith('.') or suffix == '.':
+            raise ValueError("Invalid suffix %r" % (suffix))
+        name = self.name
+        if not name:
+            raise ValueError("%r has an empty name" % (self,))
+        name = name + suffix
+        return self._from_parsed_parts(self._drv, self._root, self._parts[:-1] + [name])
+
+    def replace_parts(self, old, new, count=-1):
+        """
+        Non-Standard Pathlib Method, added by bitranox.
+        this replaces the parts of a path as You would expect from str.replace(old, new, count)
+        It's useful to calculate the target path for file copy operations.
+        """
+        result = list()
+
+        org_parts = self._parts
+        cf_org_parts = self._cparts
+
+        old_parts = list(old.parts)
+        cf_old_parts = self._flavour.casefold_parts(old_parts)
+
+        new_parts = list(new.parts)
+
+        len_old = len(old_parts)
+        len_org = len(org_parts)
+
+        if not len_old or not len_org:
+            return self
+
+        index = 0
+
+        while True:
+            if not count:
+                result = result + org_parts[index:]
+                break
+            if cf_org_parts[index:index+len_old] == cf_old_parts:
+                result = result + new_parts
+                index = index + len(old_parts)
+                count = count - 1
+            else:
+                part = org_parts[index]
+                result = result + [part, ]
+                index = index + 1
+            if index >= len_org:
+                break
+        return self._from_parts(result)
+
 
 # Can't subclass os.PathLike from PurePath and keep the constructor
 # optimizations in PurePath._parse_args().
@@ -1575,6 +1628,47 @@ class Path(PurePath):
             return self._from_parts([homedir] + self._parts[1:])
 
         return self
+
+    # #######################################################
+    # Path non-standard methods added by bitranox
+    # #######################################################
+
+    def copy(self, target, follow_symlinks=True):
+        """ wraps shutil.copy """
+        shutil.copy(src=self, dst=target, follow_symlinks=follow_symlinks)
+
+    def copy2(self, target, follow_symlinks=True):
+        """ wraps shutil.copy2 """
+        shutil.copy2(src=self, dst=target, follow_symlinks=follow_symlinks)
+
+    def copyfile(self, target, follow_symlinks=True):
+        """ wraps shutil.copyfile """
+        shutil.copyfile(src=self, dst=target, follow_symlinks=follow_symlinks)
+
+    def copymode(self, target, follow_symlinks=True):
+        """ wraps shutil.copymode """
+        shutil.copymode(src=self, dst=target, follow_symlinks=follow_symlinks)
+
+    def copystat(self, target, follow_symlinks=True):
+        """ wraps shutil.copystat """
+        shutil.copystat(src=self, dst=target, follow_symlinks=follow_symlinks)
+
+    def copytree(self, target, symlinks=False, ignore=None, copy_function=shutil.copy2, ignore_dangling_symlinks=True, dirs_exist_ok=False):
+        """ wraps shutil.copytree - dirs_exists_ok=True only allowed on python >= 3.8 """
+
+        if not dirs_exist_ok:
+            shutil.copytree(src=self, dst=target, symlinks=symlinks, ignore=ignore, copy_function=copy_function,
+                            ignore_dangling_symlinks=ignore_dangling_symlinks)
+        else:
+            if 'dirs_exist_ok' in inspect.signature(shutil.copytree).parameters:
+                shutil.copytree(src=self, dst=target, symlinks=symlinks, ignore=ignore, copy_function=copy_function,
+                                ignore_dangling_symlinks=ignore_dangling_symlinks, dirs_exist_ok=dirs_exist_ok)
+            else:
+                raise TypeError("'dirs_exist_ok' is an invalid keyword argument for shutil.copytree before python 3.8")
+
+    def rmtree(self, ignore_errors=False, onerror=None):
+        """ wraps shutil.rmtree) """
+        shutil.rmtree(path=self, ignore_errors=ignore_errors, onerror=onerror)
 
 
 class PosixPath(Path, PurePosixPath):

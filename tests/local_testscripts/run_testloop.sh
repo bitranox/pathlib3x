@@ -8,7 +8,7 @@ install_dependencies
 
 project_root_dir="${project_root_dir}"
 
-do_mypy_tests="False"  # this is set py PizzaCutter
+do_mypy_tests="True"  # this is set py PizzaCutter
 
 
 function pytest_loop {
@@ -16,7 +16,8 @@ function pytest_loop {
     while true; do
         banner "Project Root Dir: ${project_root_dir}"
         cleanup
-        if ! pytest; then continue; fi
+        # pytest options can be passed to run_pytest like --disable-warnings
+        if ! run_pytest --disable-warnings --log-cli-level=ERROR; then continue; fi
 
         if [ "${do_mypy_tests}" == "True" ]; then
             if ! mypy_strict; then continue; fi

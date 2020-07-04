@@ -5,10 +5,10 @@ own_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" || exit && pwd -P)" # this gives 
 sleeptime_on_error=5
 sudo_askpass="$(command -v ssh-askpass)"
 export SUDO_ASKPASS="${sudo_askpass}"
-export NO_AT_BRIDGE=1 # get rid of (ssh-askpass:25930): dbind-WARNING **: 18:46:12.019: Couldn't register with accessibility bus: Did not receive a reply.
+export NO_AT_BRIDGE=1                        # get rid of (ssh-askpass:25930): dbind-WARNING **: 18:46:12.019: Couldn't register with accessibility bus: Did not receive a reply.
 
-tests_dir="$(dirname "${own_dir}")"                       # one level up
-project_root_dir="$(dirname "${tests_dir}")"              # one level up
+tests_dir="$(dirname "${own_dir}")"          # one level up
+project_root_dir="$(dirname "${tests_dir}")" # one level up
 export PYTHONPATH="${project_root_dir}:/media/srv-main-softdev/rotek-apps/lib:${PYTHONPATH}"
 
 function install_or_update_lib_bash() {
@@ -49,9 +49,9 @@ function clean_caches() {
 
 function install_virtualenv_debian() {
   if ! is_package_installed python3-virtualenv; then
-      banner "python3-virtualenv is not installed, I will install it for You"
-      wait_for_enter
-      install_package_if_not_present python3-virtualenv
+    banner "python3-virtualenv is not installed, I will install it for You"
+    wait_for_enter
+    install_package_if_not_present python3-virtualenv
   fi
 }
 
@@ -89,16 +89,17 @@ function install_clean_virtual_environment() {
 }
 
 function cleanup() {
-  trap '' 2   # disable Ctrl+C
+  trap '' 2 # disable Ctrl+C
   delete_virtual_environment
   clean_caches
   cd "${save_dir}" || exit
-  trap 2      # enable Ctrl+C
+  trap 2 # enable Ctrl+C
 }
 
-function pytest() {
+function run_pytest() {
+  # run pytest, accepts additional pytest parameters like --disable-warnings and so on
   my_banner "running pytest with settings from pytest.ini, mypy.ini and conftest.py"
-  if ! python3 -m pytest "${project_root_dir}" --disable-warnings; then
+  if ! python3 -m pytest "${project_root_dir}" "$@"; then
     my_banner_warning "pytest ERROR"
     beep
     sleep "${sleeptime_on_error}"

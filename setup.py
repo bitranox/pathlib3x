@@ -86,7 +86,7 @@ if __name__ == '__main__':
           version='0.2.0',
           url='https://github.com/bitranox/pathlib3x',
           packages=find_packages(),
-          package_data={'pathlib3x': []},
+          package_data={'pathlib3x': ['py.typed', '*.pyi']},
           description='backport of pathlib 3.10 to python 3.6, 3.7, 3.8, 3.9 with a few extensions',
           long_description=long_description,
           long_description_content_type='text/x-rst',

@@ -5,6 +5,19 @@ Changelog
 - new MINOR version for added functionality in a backwards compatible manner
 - new PATCH version for backwards compatible bug fixes
 
+0.3.0
+-----
+2020-07-04 :
+    - include type stub file, its fully type hinted now
+    - added PurePath.replace_parts
+    - added Path.copy
+    - added Path.copy2
+    - added Path.copyfile
+    - added Path.copymode
+    - added Path.copystat
+    - added Path.copytree
+    - added Path.rmtree
+
 0.2.0
 -----
 2020-07-02 : added function: PurePath.append_suffix(suffix)

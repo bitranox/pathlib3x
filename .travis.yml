@@ -46,7 +46,7 @@ matrix:
       language: python
       python: "3.6"
       before_install:
-          - export mypy_strict_typecheck="False"
+          - export mypy_strict_typecheck="True"
           - export build_docs="False"
           - export deploy_on_pypi="False"
 
@@ -55,7 +55,7 @@ matrix:
       language: python
       python: "3.7"
       before_install:
-          - export mypy_strict_typecheck="False"
+          - export mypy_strict_typecheck="True"
           - export build_docs="False"
           - export deploy_on_pypi="False"
 
@@ -64,7 +64,7 @@ matrix:
       language: python
       python: "3.8"
       before_install:
-          - export mypy_strict_typecheck="False"
+          - export mypy_strict_typecheck="True"
           - export build_docs="True"
           - export deploy_on_pypi="True"
 
@@ -73,7 +73,7 @@ matrix:
       language: python
       python: "3.8-dev"
       before_install:
-          - export mypy_strict_typecheck="False"
+          - export mypy_strict_typecheck="True"
           - export build_docs="False"
           - export deploy_on_pypi="False"
 
@@ -82,7 +82,7 @@ matrix:
       language: python
       python: "pypy3"
       before_install:
-          - export mypy_strict_typecheck="False"
+          - export mypy_strict_typecheck="True"
           - export build_docs="False"
           - export deploy_on_pypi="False"
 
