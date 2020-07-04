@@ -4,7 +4,7 @@
 # shutil from https://github.com/python/typeshed/blob/master/stdlib/2and3/shutil.pyi
 # check out https://stackoverflow.com/questions/35602541/create-pyi-files-automatically/35706456
 # https://github.com/edreamleo/make-stub-files
-__name__ = 'pathlib'
+# __name__ = 'pathlib'
 import os
 import sys
 from types import TracebackType

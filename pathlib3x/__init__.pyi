@@ -1,2 +1,2 @@
 from .pathlib3x import *
-__name__ = 'pathlib'
+# __name__ = 'pathlib'
