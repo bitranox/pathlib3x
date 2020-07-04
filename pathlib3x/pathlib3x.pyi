@@ -2,6 +2,8 @@
 # pathlib : https://github.com/python/typeshed/blob/master/stdlib/3/pathlib.pyi
 # OpenBinaryMode..., OpenTextMode, StrPath from https://raw.githubusercontent.com/python/typeshed/master/stdlib/2and3/_typeshed/__init__.pyi
 # shutil from https://github.com/python/typeshed/blob/master/stdlib/2and3/shutil.pyi
+__name__ = 'pathlib'
+
 
 import os
 import sys
