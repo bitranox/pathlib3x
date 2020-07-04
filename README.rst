@@ -399,6 +399,19 @@ Changelog
 - new MINOR version for added functionality in a backwards compatible manner
 - new PATCH version for backwards compatible bug fixes
 
+0.3.0
+-----
+2020-07-04 : added functions, include stub file for typing
+    - include type stub file, its fully type hinted now
+    - added PurePath.replace_parts
+    - added Path.copy
+    - added Path.copy2
+    - added Path.copyfile
+    - added Path.copymode
+    - added Path.copystat
+    - added Path.copytree
+    - added Path.rmtree
+
 0.2.0
 -----
 2020-07-02 : added function: PurePath.append_suffix(suffix)
@@ -406,7 +419,7 @@ Changelog
 
 0.1.1
 -----
-2020-07-01: maintainance release
+2020-07-01: patch release
     - guarded the sys.audit calls with try-except clauses, because sys.event is only avail in python 3.8
 
 

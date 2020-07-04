@@ -7,7 +7,7 @@ Changelog
 
 0.3.0
 -----
-2020-07-04 :
+2020-07-04 : added functions, include stub file for typing
     - include type stub file, its fully type hinted now
     - added PurePath.replace_parts
     - added Path.copy
@@ -25,7 +25,7 @@ Changelog
 
 0.1.1
 -----
-2020-07-01: maintainance release
+2020-07-01: patch release
     - guarded the sys.audit calls with try-except clauses, because sys.event is only avail in python 3.8
 
 
