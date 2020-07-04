@@ -1,6 +1,5 @@
 # bitranox addon
 # make sure that our instance is 'pathlib.Path' not  'pathlib3x.Path' if programs expect an instance of pathlib.Path
-# __name__ = 'pathlib'
 import inspect
 import shutil
 # /bitranox addon
