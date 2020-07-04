@@ -1,12 +1,3 @@
-# bitranox addon
-# make sure that our instance is 'pathlib.Path' not  'pathlib3x.Path' if programs expect an instance of pathlib.Path
-# original taken from : https://github.com/python/cpython/blob/master/Lib/pathlib.py
-# stored under pathlib.py.txt for later, quicker comparison
-import inspect
-import shutil
-# /bitranox addon
-
-# Original Pathlib imports
 import fnmatch
 import functools
 import io
@@ -21,10 +12,6 @@ from operator import attrgetter
 from stat import S_ISDIR, S_ISLNK, S_ISREG, S_ISSOCK, S_ISBLK, S_ISCHR, S_ISFIFO
 from urllib.parse import quote_from_bytes as urlquote_from_bytes
 
-# bitranox addon
-if sys.version_info < (3, 6):
-    raise ImportError('pathlib3x is only compatible with Python 3.6 or newer')
-# /bitranox addon
 
 supports_symlinks = True
 if os.name == 'nt':
@@ -38,7 +25,10 @@ else:
     nt = None
 
 
-__all__ = ["PurePath", "PurePosixPath", "PureWindowsPath", "Path", "PosixPath", "WindowsPath"]
+__all__ = [
+    "PurePath", "PurePosixPath", "PureWindowsPath",
+    "Path", "PosixPath", "WindowsPath",
+    ]
 
 #
 # Internals
@@ -47,13 +37,14 @@ __all__ = ["PurePath", "PurePosixPath", "PureWindowsPath", "Path", "PosixPath", 
 # EBADF - guard against macOS `stat` throwing EBADF
 _IGNORED_ERROS = (ENOENT, ENOTDIR, EBADF, ELOOP)
 
-# 21 ERROR_NOT_READY - drive exists but is not accessible
-# 1921 ERROR_CANT_RESOLVE_FILENAME - fix for broken symlink pointing to itself
-_IGNORED_WINERRORS = (21, 1921)
-
+_IGNORED_WINERRORS = (
+    21,  # ERROR_NOT_READY - drive exists but is not accessible
+    1921,  # ERROR_CANT_RESOLVE_FILENAME - fix for broken symlink pointing to itself
+)
 
 def _ignore_error(exception):
-    return getattr(exception, 'errno', None) in _IGNORED_ERROS or getattr(exception, 'winerror', None) in _IGNORED_WINERRORS
+    return (getattr(exception, 'errno', None) in _IGNORED_ERROS or
+            getattr(exception, 'winerror', None) in _IGNORED_WINERRORS)
 
 
 def _is_wildcard_pattern(pat):
@@ -139,7 +130,11 @@ class _WindowsFlavour(_Flavour):
     drive_letters = set('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
     ext_namespace_prefix = '\\\\?\\'
 
-    reserved_names = ({'CON', 'PRN', 'AUX', 'NUL'} | {'COM%d' % i for i in range(1, 10)} | {'LPT%d' % i for i in range(1, 10)})
+    reserved_names = (
+        {'CON', 'PRN', 'AUX', 'NUL'} |
+        {'COM%d' % i for i in range(1, 10)} |
+        {'LPT%d' % i for i in range(1, 10)}
+        )
 
     # Interesting findings about extended paths:
     # - '\\?\c:\a', '//?/c:\a' and '//?/c:/a' are all supported
@@ -150,7 +145,7 @@ class _WindowsFlavour(_Flavour):
     def splitroot(self, part, sep=sep):
         first = part[0:1]
         second = part[1:2]
-        if second == sep and first == sep:
+        if (second == sep and first == sep):
             # XXX extended paths should also disable the collapsing of "."
             # components (according to MSDN docs).
             prefix, part = self._split_extended_path(part)
@@ -159,7 +154,7 @@ class _WindowsFlavour(_Flavour):
         else:
             prefix = ''
         third = part[2:3]
-        if second == sep and first == sep and third != sep:
+        if (second == sep and first == sep and third != sep):
             # is a UNC path:
             # vvvvvvvvvvvvvvvvvvvvv root
             # \\machine\mountpoint\directory\etc\...
@@ -173,9 +168,9 @@ class _WindowsFlavour(_Flavour):
                     if index2 == -1:
                         index2 = len(part)
                     if prefix:
-                        return prefix + part[1:index2], sep, part[index2 + 1:]
+                        return prefix + part[1:index2], sep, part[index2+1:]
                     else:
-                        return part[:index2], sep, part[index2 + 1:]
+                        return part[:index2], sep, part[index2+1:]
         drv = root = ''
         if second == ':' and first in self.drive_letters:
             drv = part[:2]
@@ -286,7 +281,6 @@ class _WindowsFlavour(_Flavour):
                     userhome = self.join(parts)
         return userhome
 
-
 class _PosixFlavour(_Flavour):
     sep = '/'
     altsep = ''
@@ -323,7 +317,6 @@ class _PosixFlavour(_Flavour):
         sep = self.sep
         accessor = path._accessor
         seen = {}
-
         def _resolve(path, rest):
             if rest.startswith(sep):
                 path = ''
@@ -355,9 +348,9 @@ class _PosixFlavour(_Flavour):
                     # untouched.
                     path = newpath
                 else:
-                    seen[newpath] = None  # not resolved symlink
+                    seen[newpath] = None # not resolved symlink
                     path = _resolve(path, target)
-                    seen[newpath] = path  # resolved symlink
+                    seen[newpath] = path # resolved symlink
 
             return path
         # NOTE: according to POSIX, getcwd() cannot contain path components
@@ -488,7 +481,6 @@ def _make_selector(pattern_parts, flavour):
     else:
         cls = _PreciseSelector
     return cls(pat, child_parts, flavour)
-
 
 if hasattr(functools, "lru_cache"):
     _make_selector = functools.lru_cache()(_make_selector)
@@ -872,8 +864,9 @@ class PurePath(object):
         if not self.name:
             raise ValueError("%r has an empty name" % (self,))
         drv, root, parts = self._flavour.parse_parts((name,))
-        if not name or name[-1] in [self._flavour.sep, self._flavour.altsep] or drv or root or len(parts) != 1:
-            raise ValueError("Invalid name %r" % name)
+        if (not name or name[-1] in [self._flavour.sep, self._flavour.altsep]
+            or drv or root or len(parts) != 1):
+            raise ValueError("Invalid name %r" % (name))
         return self._from_parsed_parts(self._drv, self._root,
                                        self._parts[:-1] + [name])
 
@@ -890,7 +883,7 @@ class PurePath(object):
         if f.sep in suffix or f.altsep and f.altsep in suffix:
             raise ValueError("Invalid suffix %r" % (suffix,))
         if suffix and not suffix.startswith('.') or suffix == '.':
-            raise ValueError("Invalid suffix %r" % suffix)
+            raise ValueError("Invalid suffix %r" % (suffix))
         name = self.name
         if not name:
             raise ValueError("%r has an empty name" % (self,))
@@ -929,8 +922,11 @@ class PurePath(object):
         cf = self._flavour.casefold_parts
         if (root or drv) if n == 0 else cf(abs_parts[:n]) != cf(to_abs_parts):
             formatted = self._format_parsed_parts(to_drv, to_root, to_parts)
-            raise ValueError("{!r} is not in the subpath of {!r} OR one path is relative and the other is absolute.".format(str(self), str(formatted)))
-        return self._from_parsed_parts('', root if n == 1 else '', abs_parts[n:])
+            raise ValueError("{!r} is not in the subpath of {!r}"
+                    " OR one path is relative and the other is absolute."
+                             .format(str(self), str(formatted)))
+        return self._from_parsed_parts('', root if n == 1 else '',
+                                       abs_parts[n:])
 
     def is_relative_to(self, *other):
         """Return True if the path is relative to another path or False.
@@ -1024,68 +1020,6 @@ class PurePath(object):
             if not fnmatch.fnmatchcase(part, pat):
                 return False
         return True
-
-    # #######################################################
-    # PurePath non-standard methods added by bitranox
-    # #######################################################
-    def append_suffix(self, suffix):
-        """
-        Non-Standard Pathlib Method, added by bitranox. The suffix has to start with '.'
-        Return a new path with the file suffix appended.
-        If the given suffix is an empty string, do not append anything
-
-        """
-        f = self._flavour
-        if f.sep in suffix or f.altsep and f.altsep in suffix:
-            raise ValueError("Invalid suffix %r" % (suffix,))
-        if suffix and not suffix.startswith('.') or suffix == '.':
-            raise ValueError("Invalid suffix %r" % (suffix))
-        name = self.name
-        if not name:
-            raise ValueError("%r has an empty name" % (self,))
-        name = name + suffix
-        return self._from_parsed_parts(self._drv, self._root, self._parts[:-1] + [name])
-
-    def replace_parts(self, old, new, count=-1):
-        """
-        Non-Standard Pathlib Method, added by bitranox.
-        this replaces the parts of a path as You would expect from str.replace(old, new, count)
-        It's useful to calculate the target path for file copy operations.
-        """
-        result = list()
-
-        org_parts = self._parts
-        cf_org_parts = self._cparts
-
-        old_parts = list(old.parts)
-        cf_old_parts = self._flavour.casefold_parts(old_parts)
-
-        new_parts = list(new.parts)
-
-        len_old = len(old_parts)
-        len_org = len(org_parts)
-
-        if not len_old or not len_org:
-            return self
-
-        index = 0
-
-        while True:
-            if not count:
-                result = result + org_parts[index:]
-                break
-            if cf_org_parts[index:index + len_old] == cf_old_parts:
-                result = result + new_parts
-                index = index + len(old_parts)
-                count = count - 1
-            else:
-                part = org_parts[index]
-                result = result + [part, ]
-                index = index + 1
-            if index >= len_org:
-                break
-        return self._from_parts(result)
-
 
 # Can't subclass os.PathLike from PurePath and keep the constructor
 # optimizations in PurePath._parse_args().
@@ -1219,12 +1153,7 @@ class Path(PurePath):
         """Iterate over this subtree and yield all existing files (of any
         kind, including directories) matching the given relative pattern.
         """
-        # bitranox - sys.audit is only available in 3.8
-        try:
-            sys.audit("pathlib.Path.glob", self, pattern)
-        except AttributeError:
-            pass
-
+        sys.audit("pathlib.Path.glob", self, pattern)
         if not pattern:
             raise ValueError("Unacceptable pattern: {!r}".format(pattern))
         drv, root, pattern_parts = self._flavour.parse_parts((pattern,))
@@ -1239,12 +1168,7 @@ class Path(PurePath):
         directories) matching the given relative pattern, anywhere in
         this subtree.
         """
-        # bitranox - sys.audit is only available in 3.8
-        try:
-            sys.audit("pathlib.Path.rglob", self, pattern)
-        except AttributeError:
-            pass
-
+        sys.audit("pathlib.Path.rglob", self, pattern)
         drv, root, pattern_parts = self._flavour.parse_parts((pattern,))
         if drv or root:
             raise NotImplementedError("Non-relative patterns are unsupported")
@@ -1614,52 +1538,12 @@ class Path(PurePath):
         """ Return a new path with expanded ~ and ~user constructs
         (as returned by os.path.expanduser)
         """
-        if (not (self._drv or self._root) and self._parts and self._parts[0][:1] == '~'):
+        if (not (self._drv or self._root) and
+            self._parts and self._parts[0][:1] == '~'):
             homedir = self._flavour.gethomedir(self._parts[0][1:])
             return self._from_parts([homedir] + self._parts[1:])
 
         return self
-
-    # #######################################################
-    # Path non-standard methods added by bitranox
-    # #######################################################
-
-    def copy(self, target, follow_symlinks=True):
-        """ wraps shutil.copy """
-        shutil.copy(src=self, dst=target, follow_symlinks=follow_symlinks)
-
-    def copy2(self, target, follow_symlinks=True):
-        """ wraps shutil.copy2 """
-        shutil.copy2(src=self, dst=target, follow_symlinks=follow_symlinks)
-
-    def copyfile(self, target, follow_symlinks=True):
-        """ wraps shutil.copyfile """
-        shutil.copyfile(src=self, dst=target, follow_symlinks=follow_symlinks)
-
-    def copymode(self, target, follow_symlinks=True):
-        """ wraps shutil.copymode """
-        shutil.copymode(src=self, dst=target, follow_symlinks=follow_symlinks)
-
-    def copystat(self, target, follow_symlinks=True):
-        """ wraps shutil.copystat """
-        shutil.copystat(src=self, dst=target, follow_symlinks=follow_symlinks)
-
-    def copytree(self, target, symlinks=False, ignore=None, copy_function=shutil.copy2, ignore_dangling_symlinks=True, dirs_exist_ok=False):
-        """ wraps shutil.copytree - dirs_exists_ok=True only allowed on python >= 3.8 """
-
-        if not dirs_exist_ok:
-            shutil.copytree(src=self, dst=target, symlinks=symlinks, ignore=ignore, copy_function=copy_function,
-                            ignore_dangling_symlinks=ignore_dangling_symlinks)
-        else:
-            if 'dirs_exist_ok' in inspect.signature(shutil.copytree).parameters:
-                shutil.copytree(src=self, dst=target, symlinks=symlinks, ignore=ignore, copy_function=copy_function,
-                                ignore_dangling_symlinks=ignore_dangling_symlinks, dirs_exist_ok=dirs_exist_ok)
-            else:
-                raise TypeError("'dirs_exist_ok' is an invalid keyword argument for shutil.copytree before python 3.8")
-
-    def rmtree(self, ignore_errors=False, onerror=None):
-        """ wraps shutil.rmtree) """
-        shutil.rmtree(path=self, ignore_errors=ignore_errors, onerror=onerror)
 
 
 class PosixPath(Path, PurePosixPath):
@@ -1668,7 +1552,6 @@ class PosixPath(Path, PurePosixPath):
     On a POSIX system, instantiating a Path should return this object.
     """
     __slots__ = ()
-
 
 class WindowsPath(Path, PureWindowsPath):
     """Path subclass for Windows systems.
