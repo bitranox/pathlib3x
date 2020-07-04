@@ -342,8 +342,8 @@ Caveats of pathlib3x
     >>> isinstance(some_path, pathlib.Path)
     False
 
-    # in such cases were You need to mix pathlib and pathlib3x probably in different modules, use that:
-    >>> str(type(some_path)) == str(type(pathlib.Path()))
+    # in such cases were You need to mix pathlib and pathlib3x in different modules, use something like:
+    >>> 'Path' in str(type(some_path)).rsplit('.', 1)[-1]
     True
 
 
