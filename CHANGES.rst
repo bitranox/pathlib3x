@@ -5,9 +5,15 @@ Changelog
 - new MINOR version for added functionality in a backwards compatible manner
 - new PATCH version for backwards compatible bug fixes
 
+0.3.2
+-----
+2020-07-05 : patch release
+    - fix typo in setup.py setup parameter zip_safe
+
+
 0.3.1
 -----
-2020-07-05 : hotfix release
+2020-07-05 : patch release
     - fix version issues in the stub files
 
 0.3.0
@@ -15,7 +21,6 @@ Changelog
 2020-07-05 : added functions, include stub files for typing, setup python_requires
     - added python_requires in setup.py
     - include type stub files, its fully type hinted package now (PEP 561)
-    - get rid of zip_save warning when running setup on windows
     - pep8 fix the standard library code
     - added PurePath.replace_parts
     - added PurePath.is_path_instance

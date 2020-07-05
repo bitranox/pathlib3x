@@ -102,9 +102,7 @@ setup_kwargs['install_requires'] = install_requires + ['typing', 'pathlib']
 # dependencies must not be put here for pip install
 setup_kwargs['setup_requires'] = setup_requires
 setup_kwargs['python_requires'] = ">=3.6.0"
-# setup does not support the zip_save option under Windows and throws a warning
-if platform.system() != 'Windows':
-    setup_kwargs['zip_save'] = False
+setup_kwargs['zip_safe'] = False
 
 
 if __name__ == '__main__':
