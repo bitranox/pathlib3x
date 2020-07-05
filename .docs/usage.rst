@@ -171,7 +171,7 @@ Path.rmtree(ignore_errors=False, onerror=None)
 Caveats of pathlib3x
 ====================
 
-.. code-block::
+.. code-block:: python
 
     >>> import pathlib3x
     >>> import pathlib
