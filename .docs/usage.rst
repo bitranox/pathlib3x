@@ -49,6 +49,8 @@ PurePath.replace_parts(old, new, count=-1)
     You can also replace absolute paths with relative paths what is quite handy - just be aware that the results might
     look unexpected, especially on Windows.
 
+    old, new can be pathlib.Path or Path-like objects
+
     if the Original Path is resolved, You should probably also resolve the old and new paths - because if symlinks are involved,
     the results might be unexpected.
 
@@ -56,6 +58,10 @@ PurePath.replace_parts(old, new, count=-1)
 
     >>> p = PureWindowsPath('c:/Downloads/pathlib.tar.gz')
     >>> p.replace_parts(PureWindowsPath('C:/downloads'), PureWindowsPath('D:/uploads'))
+    PureWindowsPath('D:/uploads/pathlib.tar.gz')
+
+    >>> p = PureWindowsPath('c:/Downloads/pathlib.tar.gz')
+    >>> p.replace_parts('C:/downloads','D:/uploads')
     PureWindowsPath('D:/uploads/pathlib.tar.gz')
 
     # handy to replace source directories with target directories on copy or move operations :

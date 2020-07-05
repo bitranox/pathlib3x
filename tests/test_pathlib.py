@@ -81,6 +81,10 @@ def test_replace_parts(source_path, old):
 def test_replace_parts_doctest():
     """
 
+    # check Path like
+    >>> pathlib.PurePath('test/test/test').replace_parts('test','testnew/testnew', 1)
+    Pure...Path('testnew/testnew/test/test')
+
     >>> new = pathlib.PurePath('new1/new2/new3/new4')
 
     >>> # Test Source Path = relative PurePath
@@ -159,7 +163,6 @@ def test_replace_parts_doctest():
     Pure...Path('testnew/testnew/test/test')
     >>> pathlib.PurePath('test').replace_parts(pathlib.PurePath('test'), pathlib.PurePath('testnew/testnew'), 1)
     Pure...Path('testnew/testnew')
-
 
     """
     pass

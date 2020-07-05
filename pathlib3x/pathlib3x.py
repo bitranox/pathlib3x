@@ -1057,10 +1057,10 @@ class PurePath(object):
         org_parts = self._parts
         cf_org_parts = self._cparts
 
-        old_parts = list(old.parts)
+        old_parts = list(self._from_parts([old]).parts)
         cf_old_parts = self._flavour.casefold_parts(old_parts)
 
-        new_parts = list(new.parts)
+        new_parts = list(self._from_parts([new]).parts)
 
         len_old = len(old_parts)
         len_org = len(org_parts)
