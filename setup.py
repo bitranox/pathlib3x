@@ -6,8 +6,8 @@ see : https://docs.python.org/3.8/distutils/setupscript.html
 import codecs
 import os
 import pathlib
-import sys
-from typing import List
+import platform
+from typing import Any, List, Dict
 
 from setuptools import setup                # type: ignore
 from setuptools import find_packages
@@ -81,26 +81,31 @@ if is_travis_deploy() and is_tagged_commit():
     # tests_require = strip_links_from_required(tests_require)
     # install_requires = strip_links_from_required(install_requires)
 
+setup_kwargs: Dict[str, Any] = dict()
+setup_kwargs['name'] = 'pathlib3x'
+setup_kwargs['version'] = '0.3.0'
+setup_kwargs['url'] = 'https://github.com/bitranox/pathlib3x'
+setup_kwargs['packages'] = find_packages()
+setup_kwargs['package_data'] = {'pathlib3x': ['py.typed', '*.pyi', '__init__.pyi']}
+setup_kwargs['description'] = 'backport of pathlib 3.10 to python 3.6, 3.7, 3.8, 3.9 with a few extensions'
+setup_kwargs['long_description'] = long_description
+setup_kwargs['long_description_content_type'] = 'text/x-rst'
+setup_kwargs['author'] = 'Robert Nowotny'
+setup_kwargs['author_email'] = 'bitranox@gmail.com'
+setup_kwargs['classifiers'] = ['Development Status :: 5 - Production/Stable', 'Intended Audience :: Developers', 'License :: OSI Approved :: MIT License', 'Natural Language :: English', 'Operating System :: OS Independent', 'Programming Language :: Python', 'Topic :: Software Development :: Libraries :: Python Modules']
+setup_kwargs['entry_points'] = {'console_scripts': ['pathlib3x = pathlib3x.pathlib3x_cli:cli_main']}
+# minimally needs to run tests - no project requirements here
+setup_kwargs['tests_require'] = tests_require
+# specify what a project minimally needs to run correctly
+setup_kwargs['install_requires'] = install_requires + ['typing', 'pathlib']
+# minimally needs to run the setup script, dependencies needs also to put here for "setup.py install test"
+# dependencies must not be put here for pip install
+setup_kwargs['setup_requires'] = setup_requires
+setup_kwargs['python_requires'] = ">=3.6.0"
+# setup does not support the zip_save option under Windows and throws a warning
+if platform.system() != 'Windows':
+    setup_kwargs['zip_save'] = False
+
+
 if __name__ == '__main__':
-    setup(name='pathlib3x',
-          version='0.3.0',
-          url='https://github.com/bitranox/pathlib3x',
-          packages=find_packages(),
-          package_data={'pathlib3x': ['py.typed', '*.pyi', '__init__.pyi']},
-          description='backport of pathlib 3.10 to python 3.6, 3.7, 3.8, 3.9 with a few extensions',
-          long_description=long_description,
-          long_description_content_type='text/x-rst',
-          author='Robert Nowotny',
-          author_email='bitranox@gmail.com',
-          classifiers=['Development Status :: 5 - Production/Stable', 'Intended Audience :: Developers', 'License :: OSI Approved :: MIT License', 'Natural Language :: English', 'Operating System :: OS Independent', 'Programming Language :: Python', 'Topic :: Software Development :: Libraries :: Python Modules'],
-          entry_points={'console_scripts': ['pathlib3x = pathlib3x.pathlib3x_cli:cli_main']},
-          # minimally needs to run tests - no project requirements here
-          tests_require=tests_require,
-          # specify what a project minimally needs to run correctly
-          install_requires=install_requires + ['typing', 'pathlib'],
-          # minimally needs to run the setup script, dependencies needs also to put here for "setup.py install test"
-          # dependencies must not be put here for pip install
-          setup_requires=setup_requires,
-          zip_save=False,
-          python_requires=">=3.6.0"
-          )
+    setup(**setup_kwargs)

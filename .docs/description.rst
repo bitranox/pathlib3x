@@ -1,5 +1,9 @@
 Backport of python 3.10.0a0 (beta) pathlib for python 3.6, 3.7, 3.8, 3.9 with a few tweaks to make it compatible.
 
+added wrappers to shutil copy, copy2, rmtree, copytree and other useful functions.
+
+fully typed PEP561 package
+
 this will be updated periodically to have the latest version of pathlib available on 3.6, 3.7, 3.8, 3.9 and probably others.
 
 WHY pathlib3x ?
@@ -41,6 +45,15 @@ but that clutters the code unnecessarily. So just use :
 
 and You can enjoy the latest pathlib features even on older python versions.
 
-A very few of own extensions to that pathlib will be added probably over time.
+Some own extensions to that pathlib will be added probably over time. At the moment we added some wrappers to shutil like "copy", "rmtree", "copytree", so
+You can do :
+
+.. code-block::
+
+    import pathlib3x as pathlib
+    my_file = pathlib.Path('/etc/hosts')
+    to_file = pathlib.Path('/tmp/foo')
+    my_file.copy(to_file)
+
 
 If You have some nice features for pathlib, let me know - I will consider to integrate them.

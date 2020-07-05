@@ -38,10 +38,10 @@ PurePath.replace_parts(old, new, count=-1)
     # handy to replace source directories with target directories on copy or move operations :
     >>> source_dir = pathlib.Path('c:/source_dir')
     >>> target_dir = pathlib.Path('c:/target_dir')
-    >>> source_files = source_dir.glob('**/*')
+    >>> source_files = source_dir.glob('**/*.txt')
     >>> for source in source_files:
             target = source.replace_parts(source_dir, target_dir)
-    ...     shutil.copy(str(source), str(target))
+    ...     source.copy(target)
 
     # this will always return PureWindowsPath(), because PureWindowsPath('.') has no parts to replace
     >>> p = PureWindowsPath('.')

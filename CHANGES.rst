@@ -7,9 +7,11 @@ Changelog
 
 0.3.0
 -----
-2020-07-04 : added functions, include stub file for typing, setup python_requires
+2020-07-04 : added functions, include stub files for typing, setup python_requires
     - added python_requires in setup.py
     - include type stub files, its fully type hinted package now (PEP 561)
+    - get rid of zip_save warning when running setup on windows
+    - pep8 fix the standard library code
     - added PurePath.replace_parts
     - added Path.copy
     - added Path.copy2

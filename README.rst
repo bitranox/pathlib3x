@@ -43,6 +43,10 @@ pathlib3x
 
 Backport of python 3.10.0a0 (beta) pathlib for python 3.6, 3.7, 3.8, 3.9 with a few tweaks to make it compatible.
 
+added wrappers to shutil copy, copy2, rmtree, copytree and other useful functions.
+
+fully typed PEP561 package
+
 this will be updated periodically to have the latest version of pathlib available on 3.6, 3.7, 3.8, 3.9 and probably others.
 
 WHY pathlib3x ?
@@ -84,7 +88,16 @@ but that clutters the code unnecessarily. So just use :
 
 and You can enjoy the latest pathlib features even on older python versions.
 
-A very few of own extensions to that pathlib will be added probably over time.
+Some own extensions to that pathlib will be added probably over time. At the moment we added some wrappers to shutil like "copy", "rmtree", "copytree", so
+You can do :
+
+.. code-block::
+
+    import pathlib3x as pathlib
+    my_file = pathlib.Path('/etc/hosts')
+    to_file = pathlib.Path('/tmp/foo')
+    my_file.copy(to_file)
+
 
 If You have some nice features for pathlib, let me know - I will consider to integrate them.
 
@@ -249,10 +262,10 @@ PurePath.replace_parts(old, new, count=-1)
     # handy to replace source directories with target directories on copy or move operations :
     >>> source_dir = pathlib.Path('c:/source_dir')
     >>> target_dir = pathlib.Path('c:/target_dir')
-    >>> source_files = source_dir.glob('**/*')
+    >>> source_files = source_dir.glob('**/*.txt')
     >>> for source in source_files:
             target = source.replace_parts(source_dir, target_dir)
-    ...     shutil.copy(str(source), str(target))
+    ...     source.copy(target)
 
     # this will always return PureWindowsPath(), because PureWindowsPath('.') has no parts to replace
     >>> p = PureWindowsPath('.')
@@ -403,9 +416,11 @@ Changelog
 
 0.3.0
 -----
-2020-07-04 : added functions, include stub file for typing, setup python_requires
+2020-07-04 : added functions, include stub files for typing, setup python_requires
     - added python_requires in setup.py
-    - include type stub file, its fully type hinted now
+    - include type stub files, its fully type hinted package now (PEP 561)
+    - get rid of zip_save warning when running setup on windows
+    - pep8 fix the standard library code
     - added PurePath.replace_parts
     - added Path.copy
     - added Path.copy2
