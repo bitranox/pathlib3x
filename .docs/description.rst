@@ -1,4 +1,4 @@
-Backport of python 3.10.0a0 (beta) pathlib for python 3.6, 3.7, 3.8, 3.9 with a few tweaks to make it compatible.
+Backport of Python 3.10.0a0 pathlib for Python 3.6, 3.7, 3.8, 3.9 with a few tweaks to make it compatible.
 
 added wrappers to shutil copy, copy2, rmtree, copytree and other useful functions.
 
