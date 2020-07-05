@@ -5,11 +5,15 @@ Changelog
 - new MINOR version for added functionality in a backwards compatible manner
 - new PATCH version for backwards compatible bug fixes
 
+0.3.3
+-----
+2020-07-05 : patch release
+    - fix minor typos
+
 0.3.2
 -----
 2020-07-05 : patch release
     - fix typo in setup.py setup parameter zip_safe
-
 
 0.3.1
 -----

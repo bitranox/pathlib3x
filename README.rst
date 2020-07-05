@@ -41,7 +41,7 @@ pathlib3x
 .. |snyk| image:: https://img.shields.io/snyk/vulnerabilities/github/bitranox/pathlib3x
    :target: https://snyk.io/test/github/bitranox/pathlib3x
 
-Backport of python 3.10.0a0 (beta) pathlib for python 3.6, 3.7, 3.8, 3.9 with a few tweaks to make it compatible.
+Backport of Python 3.10.0a0 pathlib for Python 3.6, 3.7, 3.8, 3.9 with a few tweaks to make it compatible.
 
 added wrappers to shutil copy, copy2, rmtree, copytree and other useful functions.
 
@@ -475,9 +475,19 @@ Changelog
 - new MINOR version for added functionality in a backwards compatible manner
 - new PATCH version for backwards compatible bug fixes
 
+0.3.3
+-----
+2020-07-05 : patch release
+    - fix minor typos
+
+0.3.2
+-----
+2020-07-05 : patch release
+    - fix typo in setup.py setup parameter zip_safe
+
 0.3.1
 -----
-2020-07-05 : hotfix release
+2020-07-05 : patch release
     - fix version issues in the stub files
 
 0.3.0
