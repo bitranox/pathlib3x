@@ -3,9 +3,9 @@ just check out the latest python documentation :  https://docs.python.org/3/libr
 Additional Features are documented here :
 
 PurePath.append_suffix(suffix)
-    Return a new path with the suffix appended. If the original path doesn’t have a suffix, the new suffix is appended.
+    Return a new path with the *suffix* appended. If the original path doesn’t have a suffix, the new suffix is appended.
     If the original path have a suffix, the new suffix will be appended at the end.
-    If the suffix is an empty string the returned Path does not change.
+    If *suffix* is an empty string the original Path will be returned.
 
 .. code-block:: python
 
@@ -21,10 +21,10 @@ PurePath.append_suffix(suffix)
 
 
 PurePath.is_path_instance(__obj)
-    Return True if the __obj is instance of the original pathlib.Path or pathlib3x.Path.
+    Return True if *__obj* is instance of the original pathlib.Path or pathlib3x.Path.
     Useful if You need to check for Path type, in an environment were You mix pathlib and pathlib3x
 
-.. code-block::
+.. code-block:: python
 
     >>> import pathlib3x
     >>> import pathlib
@@ -44,15 +44,17 @@ PurePath.is_path_instance(__obj)
 
 
 PurePath.replace_parts(old, new, count=-1)
-    Return a new Path with parts replaced. If the Original Part or old has no parts, the Original Path will be returned.
-    On Windows the replacement is not case sensitive because of case folding on drives, directory and filenames.
+    Return a new Path with parts replaced. If the Original Path or *old* has no parts, the Original Path will be returned.
+    On Windows, the replacement operation is not case sensitive, because of case folding on drives, directory and filenames.
     You can also replace absolute paths with relative paths what is quite handy - just be aware that the results might
     look unexpected, especially on Windows.
 
-    old, new can be pathlib.Path or Path-like objects
+    *old, new* can be pathlib.Path or Path-like objects
 
-    if the Original Path is resolved, You should probably also resolve the old and new paths - because if symlinks are involved,
+    if the Original Path is resolved, You should probably also resolve *old* and *new* - because if symlinks are involved,
     the results might be unexpected.
+
+    be aware of case folding in windows, the file "c:/Test/test.txt" is the same as "c:/test/Test.TXT"
 
 .. code-block:: python
 
@@ -74,14 +76,28 @@ PurePath.replace_parts(old, new, count=-1)
 
     # this will always return PureWindowsPath(), because PureWindowsPath('.') has no parts to replace
     >>> p = PureWindowsPath('.')
-    >>> p.replace_parts(PureWindowsPath('.'), PureWindowsPath('test'))
+    >>> p.replace_parts('.', 'test')
     PureWindowsPath()
 
     # looks unexpected but is correct, since PureWindowsPath('/uploads') is a relative path in Windows
     >>> p = PureWindowsPath('c:/Downloads/pathlib.tar.gz')
-    >>> p.replace_parts(PureWindowsPath('C:/downloads'), PureWindowsPath('/uploads'))
+    >>> p.replace_parts('C:/downloads', '/uploads')
     PureWindowsPath('uploads/pathlib.tar.gz')
 
+    # take care when replace, it might match on parts You are not aware of
+    >>> p = PureWindowsPath('c:/downloads/Downloads.tar.gz')
+    >>> p.replace_parts('downloads', 'uploads')
+    PureWindowsPath('c:/uploads/uploads.tar.gz')    # that was not intended !
+
+    # better
+    >>> p = PureWindowsPath('c:/downloads/Downloads.tar.gz')
+    >>> p.replace_parts('downloads', 'uploads', 1)
+    PureWindowsPath('c:/uploads/Downloads.tar.gz')
+
+    # much better
+    >>> p = PureWindowsPath('c:/downloads/Downloads.tar.gz')
+    >>> p.replace_parts('c:/downloads', 'c:/uploads')
+    PureWindowsPath('c:/uploads/Downloads.tar.gz')
 
 
 shutil wrappers
@@ -176,4 +192,3 @@ Caveats of pathlib3x
 
 So dont mix pathlib with pathlib3x and expect that objects are an instance of Pathlib and vice versa.
 This can happen easily if You have many Modules. Just keep it in mind !
-
