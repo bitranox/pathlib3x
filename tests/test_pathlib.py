@@ -1,5 +1,6 @@
 import os
 import pathlib3x as pathlib
+import pathlib as pathlib_original
 import pytest               # type: ignore
 from typing import Any
 import unittest
@@ -179,3 +180,12 @@ def test_shutil_wrappers():
     path_test_tree.copytree(path_test_tree_target)
     path_test_tree_target.rmtree()
     path_target_file.unlink()
+
+
+def test_interaction_with_original_pathlib():
+    pathlib_original_file = pathlib_original.Path('some_path/some_path/some_path.txt')
+    pathlib3x_file = pathlib.Path('some_path3x/some_path3x/some_path3x.txt')
+    assert pathlib.Path.is_path_instance(pathlib_original_file)
+    assert pathlib.Path.is_path_instance(pathlib3x_file)
+    test_conversion = pathlib.Path(pathlib_original_file)
+    isinstance(test_conversion, pathlib.Path)

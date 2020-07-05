@@ -1086,6 +1086,11 @@ class PurePath(object):
                 break
         return self._from_parts(result)
 
+    @staticmethod
+    def is_path_instance(__obj):
+        """ returns True when __obj is an Instance of pathlib or pathlib3x PurePath"""
+        import pathlib
+        return isinstance(__obj, pathlib.PurePath) or isinstance(__obj, PurePath)
 
 # Can't subclass os.PathLike from PurePath and keep the constructor
 # optimizations in PurePath._parse_args().

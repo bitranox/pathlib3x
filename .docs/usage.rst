@@ -20,6 +20,29 @@ PurePath.append_suffix(suffix)
     PureWindowsPath('README.txt')
 
 
+PurePath.is_path_instance(__obj)
+    Return True if the __obj is instance of the original pathlib.Path or pathlib3x.Path.
+    Useful if You need to check for Path type, in an environment were You mix pathlib and pathlib3x
+
+.. code-block::
+
+    >>> import pathlib3x
+    >>> import pathlib
+
+    >>> pathlib3x_path = pathlib3x.Path('some_path')  # this might happen in another module !
+    >>> pathlib_path = pathlib.Path('some_path')
+    >>> isinstance(pathlib3x_path, pathlib.Path)
+    False
+    >>> isinstance(pathlib_path, pathlib3x.Path)
+    False
+
+    # in such cases were You need to mix pathlib and pathlib3x in different modules, use:
+    >>> pathlib3x_path.Path.is_path_instance(pathlib3x_path)
+    True
+    >>> pathlib3x_path.Path.is_path_instance(pathlib_path)
+    True
+
+
 PurePath.replace_parts(old, new, count=-1)
     Return a new Path with parts replaced. If the Original Part or old has no parts, the Original Path will be returned.
     On Windows the replacement is not case sensitive because of case folding on drives, directory and filenames.
@@ -53,6 +76,10 @@ PurePath.replace_parts(old, new, count=-1)
     >>> p.replace_parts(PureWindowsPath('C:/downloads'), PureWindowsPath('/uploads'))
     PureWindowsPath('uploads/pathlib.tar.gz')
 
+
+
+shutil wrappers
+===============
 
 Path.copy(target, follow_symlinks)
     wraps shutil.copy, see: https://docs.python.org/3/library/shutil.html
@@ -127,12 +154,17 @@ Caveats of pathlib3x
     >>> import pathlib3x
     >>> import pathlib
 
-    >>> some_path = pathlib3x.Path('some_file')  # this might happen in another module !
-    >>> isinstance(some_path, pathlib.Path)
+    >>> pathlib3x_path = pathlib3x.Path('some_path')  # this might happen in another module !
+    >>> pathlib_path = pathlib.Path('some_path')
+    >>> isinstance(pathlib3x_path, pathlib.Path)
+    False
+    >>> isinstance(pathlib_path, pathlib3x.Path)
     False
 
-    # in such cases were You need to mix pathlib and pathlib3x in different modules, use something like:
-    >>> 'Path' in str(type(some_path)).rsplit('.', 1)[-1]
+    # in such cases were You need to mix pathlib and pathlib3x in different modules, use:
+    >>> pathlib3x_path.Path.is_path_instance(pathlib3x_path)
+    True
+    >>> pathlib3x_path.Path.is_path_instance(pathlib_path)
     True
 
 
