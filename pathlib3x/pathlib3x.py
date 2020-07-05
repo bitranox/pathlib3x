@@ -1057,10 +1057,10 @@ class PurePath(object):
         org_parts = self._parts
         cf_org_parts = self._cparts
 
-        old_parts = list(old.parts)
+        old_parts = list(self._from_parts([old]).parts)
         cf_old_parts = self._flavour.casefold_parts(old_parts)
 
-        new_parts = list(new.parts)
+        new_parts = list(self._from_parts([new]).parts)
 
         len_old = len(old_parts)
         len_org = len(org_parts)
@@ -1086,6 +1086,11 @@ class PurePath(object):
                 break
         return self._from_parts(result)
 
+    @staticmethod
+    def is_path_instance(__obj):
+        """ returns True when __obj is an Instance of pathlib or pathlib3x PurePath"""
+        import pathlib
+        return isinstance(__obj, pathlib.PurePath) or isinstance(__obj, PurePath)
 
 # Can't subclass os.PathLike from PurePath and keep the constructor
 # optimizations in PurePath._parse_args().
