@@ -108,8 +108,9 @@ Path.copy(target, follow_symlinks)
 
 .. code-block:: python
 
-    >>> s = Path('c:/Downloads/pathlib.tar.gz')
-    >>> t = PureWindowsPath('c:/Downloads/pathlib.tar.gz.backup')
+    >>> import pathlib3x as pathlib
+    >>> s = pathlib.Path('c:/Downloads/pathlib.tar.gz')
+    >>> t = pathlib.Path('c:/Downloads/pathlib.tar.gz.backup')
     >>> s.copy(t)
 
 Path.copy2(target, follow_symlinks=True)
@@ -117,8 +118,9 @@ Path.copy2(target, follow_symlinks=True)
 
 .. code-block:: python
 
-    >>> s = Path('c:/Downloads/pathlib.tar.gz')
-    >>> t = PureWindowsPath('c:/Downloads/pathlib.tar.gz.backup')
+    >>> import pathlib3x as pathlib
+    >>> s = pathlib.Path('c:/Downloads/pathlib.tar.gz')
+    >>> t = pathlib.Path('c:/Downloads/pathlib.tar.gz.backup')
     >>> s.copy2(t)
 
 Path.copyfile(target, follow_symlinks)
@@ -126,8 +128,9 @@ Path.copyfile(target, follow_symlinks)
 
 .. code-block:: python
 
-    >>> s = Path('c:/Downloads/pathlib.tar.gz')
-    >>> t = PureWindowsPath('c:/Downloads/pathlib.tar.gz.backup')
+    >>> import pathlib3x as pathlib
+    >>> s = pathlib.Path('c:/Downloads/pathlib.tar.gz')
+    >>> t = pathlib.Path('c:/Downloads/pathlib.tar.gz.backup')
     >>> s.copyfile(t)
 
 Path.copymode(target, follow_symlinks=True)
@@ -135,8 +138,9 @@ Path.copymode(target, follow_symlinks=True)
 
 .. code-block:: python
 
-    >>> s = Path('c:/Downloads/pathlib.tar.gz')
-    >>> t = PureWindowsPath('c:/Downloads/pathlib.tar.gz.backup')
+    >>> import pathlib3x as pathlib
+    >>> s = pathlib.Path('c:/Downloads/pathlib.tar.gz')
+    >>> t = pathlib.Path('c:/Downloads/pathlib.tar.gz.backup')
     >>> s.copymode(t)
 
 Path.copystat(target, follow_symlinks=True)
@@ -144,8 +148,9 @@ Path.copystat(target, follow_symlinks=True)
 
 .. code-block:: python
 
-    >>> s = Path('c:/Downloads/pathlib.tar.gz')
-    >>> t = PureWindowsPath('c:/Downloads/pathlib.tar.gz.backup')
+    >>> import pathlib3x as pathlib
+    >>> s = pathlib.Path('c:/Downloads/pathlib.tar.gz')
+    >>> t = pathlib.Path('c:/Downloads/pathlib.tar.gz.backup')
     >>> s.copystat(t)
 
 Path.copytree(target, symlinks=False, ignore=None, copy_function=copy2, ignore_dangling_symlinks=True, dirs_exists_ok=False)
@@ -155,8 +160,9 @@ Path.copytree(target, symlinks=False, ignore=None, copy_function=copy2, ignore_d
 
 .. code-block:: python
 
-    >>> s = Path('c:/Downloads')
-    >>> t = PureWindowsPath('c:/temp/Backups')
+    >>> import pathlib3x as pathlib
+    >>> s = pathlib.Path('c:/Downloads')
+    >>> t = pathlib.Path('c:/temp/Backups')
     >>> s.copytree(t)
 
 Path.rmtree(ignore_errors=False, onerror=None)
@@ -164,7 +170,8 @@ Path.rmtree(ignore_errors=False, onerror=None)
 
 .. code-block:: python
 
-    >>> p = Path('c:/Downloads/old')
+    >>> import pathlib3x as pathlib
+    >>> p = pathlib.Path('c:/Downloads/old')
     >>> p.rmtree()
 
 
