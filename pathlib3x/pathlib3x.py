@@ -1092,6 +1092,7 @@ class PurePath(object):
         import pathlib
         return isinstance(__obj, pathlib.PurePath) or isinstance(__obj, PurePath)
 
+
 # Can't subclass os.PathLike from PurePath and keep the constructor
 # optimizations in PurePath._parse_args().
 os.PathLike.register(PurePath)

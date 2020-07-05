@@ -5,6 +5,11 @@ Changelog
 - new MINOR version for added functionality in a backwards compatible manner
 - new PATCH version for backwards compatible bug fixes
 
+0.3.1
+-----
+2020-07-05 : hotfix release
+    - fix version issues in the stub files
+
 0.3.0
 -----
 2020-07-05 : added functions, include stub files for typing, setup python_requires
