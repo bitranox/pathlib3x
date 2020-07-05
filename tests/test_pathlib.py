@@ -88,9 +88,6 @@ def test_replace_parts_doctest():
     >>> source_path.replace_parts(pathlib.PurePath('Test1/test2'), new)
     Pure...Path('test/new1/new2/new3/new4/test3')
 
-    >>> source_path.replace_parts(pathlib.PurePath('test1/test2'), new)
-    Pure...Path('test/Test1/test2/test3')
-
     >>> source_path.replace_parts(pathlib.PurePath('test/test'), new)
     Pure...Path('test/Test1/test2/test3')
 
@@ -165,3 +162,20 @@ def test_replace_parts_doctest():
 
     """
     pass
+
+
+def test_shutil_wrappers():
+    """ test the shutil wrappers """
+    path_test_dir = pathlib.Path(__file__).parent.resolve()
+    path_test_file = path_test_dir / 'test.txt'
+    path_target_file = path_test_dir / 'test_target.txt'
+    path_test_tree = path_test_dir / 'test_treecopy'
+    path_test_tree_target = path_test_dir / 'test_treecopy_target'
+    path_test_file.copy(path_target_file)
+    path_test_file.copy2(path_target_file)
+    path_test_file.copyfile(path_target_file)
+    path_test_file.copymode(path_target_file)
+    path_test_file.copystat(path_target_file)
+    path_test_tree.copytree(path_test_tree_target)
+    path_test_tree_target.rmtree()
+    path_target_file.unlink()

@@ -9,7 +9,7 @@ Changelog
 -----
 2020-07-04 : added functions, include stub file for typing, setup python_requires
     - added python_requires in setup.py
-    - include type stub file, its fully type hinted now
+    - include type stub files, its fully type hinted package now (PEP 561)
     - added PurePath.replace_parts
     - added Path.copy
     - added Path.copy2
