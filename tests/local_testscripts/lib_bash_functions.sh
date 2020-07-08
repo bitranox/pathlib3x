@@ -2,6 +2,12 @@
 save_dir="$PWD"
 own_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" || exit && pwd -P)" # this gives the full path, even for sourced scripts
 
+# shellcheck disable=SC2050
+if [[ "True" != "True" ]]; then
+    echo "exit - ${BASH_SOURCE[0]} is not configured by PizzaCutter"
+    exit 0
+fi
+
 sleeptime_on_error=5
 sudo_askpass="$(command -v ssh-askpass)"
 export SUDO_ASKPASS="${sudo_askpass}"
@@ -9,7 +15,14 @@ export NO_AT_BRIDGE=1                        # get rid of (ssh-askpass:25930): d
 
 tests_dir="$(dirname "${own_dir}")"          # one level up
 project_root_dir="$(dirname "${tests_dir}")" # one level up
-export PYTHONPATH="${project_root_dir}:/media/srv-main-softdev/rotek-apps/lib:${PYTHONPATH}"
+
+cd "$own_dir"||exit
+# shellcheck disable=SC2155
+export PYTHONPATH="$(python3 ./testing_tools.py append_directory_to_python_path "${project_root_dir}")"
+# following lines are not only a comment, they get actually replaced
+export PYTHONPATH="$(python3 ./testing_tools.py append_directory_to_python_path "/media/srv-main-softdev/rotek-apps/lib")"
+export MYPYPATH="$(python3 ./testing_tools.py append_immediate_subdirs_to_mypy_path "/media/srv-main-softdev/rotek-apps/lib/bitranox")"
+cd "$save_dir"||exit
 
 function install_or_update_lib_bash() {
   if [[ ! -f /usr/local/lib_bash/install_or_update.sh ]]; then
@@ -63,6 +76,8 @@ function install_test_requirements() {
   python3 -m pip install --upgrade pip
   python3 -m pip install --upgrade setuptools
   python3 -m pip install --upgrade wheel
+  # this we need for local testscripts
+  python3 -m pip install --upgrade click
 
   if test -f "${project_root_dir}/requirements_test.txt"; then
     clr_green "installing/updating test requirements from \"requirements_test.txt\""
@@ -99,7 +114,7 @@ function cleanup() {
 function run_pytest() {
   # run pytest, accepts additional pytest parameters like --disable-warnings and so on
   my_banner "running pytest with settings from pytest.ini, mypy.ini and conftest.py"
-  if ! python3 -m pytest "${project_root_dir}"  "$@"; then
+  if ! python3 -m pytest "${project_root_dir}" "$@"; then
     my_banner_warning "pytest ERROR"
     beep
     sleep "${sleeptime_on_error}"
@@ -109,8 +124,7 @@ function run_pytest() {
 
 function mypy_strict() {
   my_banner "mypy strict"
-  if ! python3 -m mypy "${project_root_dir}"  \
-                       --strict --warn-unused-ignores --implicit-reexport --follow-imports=silent; then
+  if ! python3 -m mypy "${project_root_dir}" --strict --warn-unused-ignores --implicit-reexport --follow-imports=silent; then
     my_banner_warning "mypy strict ERROR"
     beep
     sleep "${sleeptime_on_error}"
@@ -120,8 +134,7 @@ function mypy_strict() {
 
 function mypy_strict_with_imports() {
   my_banner "mypy strict including imports"
-  if ! python3 -m mypy "${project_root_dir}"  \
-                       --strict --warn-unused-ignores --implicit-reexport --follow-imports=normal; then
+  if ! python3 -m mypy "${project_root_dir}" --strict --warn-unused-ignores --implicit-reexport --follow-imports=normal; then
     my_banner_warning "mypy strict including imports ERROR"
     beep
     sleep "${sleeptime_on_error}"
