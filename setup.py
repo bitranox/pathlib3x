@@ -6,11 +6,11 @@ see : https://docs.python.org/3.8/distutils/setupscript.html
 import codecs
 import os
 import pathlib
-import platform
 from typing import Any, List, Dict
 
 from setuptools import setup                # type: ignore
 from setuptools import find_packages
+
 
 def is_travis_deploy() -> bool:
     if 'travis_deploy' in os.environ:
@@ -97,7 +97,7 @@ setup_kwargs['entry_points'] = {'console_scripts': ['pathlib3x = pathlib3x.pathl
 # minimally needs to run tests - no project requirements here
 setup_kwargs['tests_require'] = tests_require
 # specify what a project minimally needs to run correctly
-setup_kwargs['install_requires'] = install_requires + ['typing', 'pathlib']
+setup_kwargs['install_requires'] = install_requires
 # minimally needs to run the setup script, dependencies needs also to put here for "setup.py install test"
 # dependencies must not be put here for pip install
 setup_kwargs['setup_requires'] = setup_requires

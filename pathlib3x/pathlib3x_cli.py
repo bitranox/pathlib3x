@@ -26,14 +26,14 @@ def info() -> None:
 @click.version_option(version=__init__conf__.version,
                       prog_name=__init__conf__.shell_command,
                       message='{} version %(version)s'.format(__init__conf__.shell_command))
-def cli_main() -> None:                     # pragma: no cover
-    pass                                    # pragma: no cover
+def cli_main() -> None:         # pragma: no cover
+    pass
 
 
 @cli_main.command('info', context_settings=CLICK_CONTEXT_SETTINGS)
-def cli_info() -> None:                     # pragma: no cover
+def cli_info() -> None:
     """ get program informations """
-    info()                                  # pragma: no cover
+    info()
 
 
 # entry point if main
