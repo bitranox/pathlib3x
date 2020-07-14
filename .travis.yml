@@ -156,7 +156,7 @@ script:
 
     # mypy typecheck strict
     - if [[ ${mypy_strict_typecheck} == "True" ]]; then
-          COMMAND="${cPREFIX} ${cPYTHON} -m mypy -p pathlib3x --strict --warn-unused-ignores --implicit-reexport --follow-imports=silent"
+          COMMAND="${cPREFIX} ${cPYTHON} -m mypy -p pathlib3x --strict --no-warn-unused-ignores --implicit-reexport --follow-imports=silent"
           ${lib_bash_banner} "running '${COMMAND}'";
           if ${COMMAND}; then ${lib_bash_banner} "'${COMMAND}' - OK"; else ${lib_bash_banner_warning} "'${COMMAND}' - FAILED" && exit 1; fi
       else
@@ -173,7 +173,7 @@ script:
       fi
 
     # Check if Deployment would work on non-tagged builds
-    - if [[ -f setup.py ]] && [[ -z ${TRAVIS_TAG} ]] && [[ -f build_docs.py ]] && [[ ${build_docs} == "True" ]]; then
+    - if [[ -f setup.py ]] && [[ -z ${TRAVIS_TAG} ]] && [[ ${build_docs} == "True" ]]; then
           ${lib_bash_banner} "Testing PyPi Deployment";
           ${cPREFIX} ${cPIP} install readme_renderer > /dev/null 2>&1;
           ${cPREFIX} ${cPIP} install --upgrade twine > /dev/null 2>&1;
