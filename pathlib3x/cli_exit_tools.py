@@ -15,10 +15,12 @@ def get_system_exit_code(exc: BaseException) -> int:
     Return the exit code for linux or windows, based on the exception.
     If, on windows, the winerror is set on the Exception, we return that winerror code.
 
-    >>> assert get_system_exit_code(FileNotFoundError()) == 2
-    >>> exc=FileNotFoundError()
-    >>> setattr(exc, 'winerror', 42)
-    >>> assert get_system_exit_code(exc) == 42
+    >>> try:
+    ...     raise FileNotFoundError()
+    ... except FileNotFoundError as exc:
+    ...     assert get_system_exit_code(exc) == 2
+    ...     setattr(exc, 'winerror', 42)
+    ...     assert get_system_exit_code(exc) == 42
 
     """
 
@@ -30,7 +32,11 @@ def get_system_exit_code(exc: BaseException) -> int:
                           RuntimeError: 1, BaseException: 1}
 
     if hasattr(exc, 'winerror'):
-        return int(exc.winerror)  # type: ignore
+        try:
+            exit_code = int(exc.winerror)    # type: ignore
+            return exit_code
+        except (AttributeError, TypeError):
+            pass
 
     if 'posix' in sys.builtin_module_names:
         exceptions = posix_exceptions
