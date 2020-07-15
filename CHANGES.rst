@@ -14,7 +14,7 @@ Changelog
 -----
 2020-07-15 : patch release
     - fix cli test
-    - enable traceback option on cli
+    - enable traceback option on cli errors
 
 0.3.3
 -----
