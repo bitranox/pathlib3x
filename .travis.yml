@@ -114,7 +114,6 @@ install:
     - ${lib_bash_banner} "upgrading wheel"; ${cPREFIX} ${cPIP} install --upgrade wheel
     - ${lib_bash_banner} "upgrading pytest-pycodestyle"; ${cPREFIX} ${cPIP} install --upgrade "pytest-pycodestyle; python_version >= \"3.5\""
     - ${lib_bash_banner} "installing lib_log_utils"; ${cPREFIX} ${cPIP} install git+https://github.com/bitranox/lib_log_utils.git
-    - ${lib_bash_banner} "uninstall typing"; ${cPREFIX} ${cPIP} uninstall typing
     - if [[ ${build_docs} == "True" ]]; then
           ${lib_bash_banner} "installing rst_include"; ${cPREFIX} ${cPIP} install git+https://github.com/bitranox/rst_include.git;
       fi

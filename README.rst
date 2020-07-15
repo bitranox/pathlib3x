@@ -434,8 +434,9 @@ Usage from Commandline
      extensions
 
    Options:
-     --version   Show the version and exit.
-     -h, --help  Show this message and exit.
+     --version                     Show the version and exit.
+     --traceback / --no-traceback  return traceback information on cli
+     -h, --help                    Show this message and exit.
 
    Commands:
      info  get program informations
@@ -474,9 +475,15 @@ Changelog
 - new MINOR version for added functionality in a backwards compatible manner
 - new PATCH version for backwards compatible bug fixes
 
+0.3.4
+-----
+2020-07-15 : patch release
+    - fix cli test
+    - enable traceback option on cli
+
 0.3.3
 -----
-2020-07-05 : patch release
+2020-07-15 : patch release
     - fix minor typos
 
 0.3.2
