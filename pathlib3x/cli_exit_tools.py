@@ -33,7 +33,8 @@ def get_system_exit_code(exc: BaseException) -> int:
 
     if hasattr(exc, 'winerror'):
         try:
-            return int(exc.winerror)    # type: ignore
+            exit_code = int(exc.winerror)    # type: ignore
+            return exit_code
         except TypeError:
             pass
 

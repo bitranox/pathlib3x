@@ -56,6 +56,7 @@ function clean_caches() {
   sudo find "${project_root_dir}" -name "build" -type d -exec rm -rf {} \; 2>/dev/null
   sudo find "${project_root_dir}" -name "dist" -type d -exec rm -rf {} \; 2>/dev/null
   sudo find "${project_root_dir}" -name "*.egg-info" -type d -exec rm -rf {} \; 2>/dev/null
+  sudo find "${project_root_dir}" -name "__pycache__" -type d -exec rm -rf {} \; 2>/dev/null
   sudo rm -rf "$HOME/.eggs/*"
   sudo rm -rf "$HOME/.mypy_cache"
 }
