@@ -30,8 +30,10 @@ def get_system_exit_code(exc: BaseException) -> int:
                           RuntimeError: 1, BaseException: 1}
 
     if hasattr(exc, 'winerror'):
-        if exc.winerror is not None:    # type: ignore
+        try:
             return int(exc.winerror)    # type: ignore
+        except TypeError:
+            pass
 
     if 'posix' in sys.builtin_module_names:
         exceptions = posix_exceptions

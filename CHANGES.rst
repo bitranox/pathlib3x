@@ -7,8 +7,9 @@ Changelog
 
 0.3.3
 -----
-2020-07-05 : patch release
-    - fix minor typos
+2020-07-15 : patch release
+    - fix cli test
+    - enable traceback option on cli
 
 0.3.2
 -----
