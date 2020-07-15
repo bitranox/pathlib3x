@@ -475,11 +475,16 @@ Changelog
 - new MINOR version for added functionality in a backwards compatible manner
 - new PATCH version for backwards compatible bug fixes
 
+0.3.5
+-----
+2020-07-15 : development
+    -
+
 0.3.4
 -----
 2020-07-15 : patch release
     - fix cli test
-    - enable traceback option on cli
+    - enable traceback option on cli errors
 
 0.3.3
 -----
