@@ -8,16 +8,16 @@ import unittest
 
 class TestPathlibFunctions(unittest.TestCase):
 
-    def test_unlink_missing_ok(self):
+    def test_unlink_missing_ok(self) -> None:
         pathlib.Path('__not_existing__').unlink(missing_ok=True)
 
-    def test_glob(self):
+    def test_glob(self) -> None:
         pathlib.Path('.').glob('**/*')
 
 
 class TestAppendSuffix(unittest.TestCase):
 
-    def test_append_suffix_ok(self):
+    def test_append_suffix_ok(self) -> None:
         # setup
         path_without_suffix = pathlib.Path('path_without_suffix')
         path_with_suffix = pathlib.Path('path_with.suffix')
@@ -31,18 +31,18 @@ class TestAppendSuffix(unittest.TestCase):
         # test empty suffix
         self.assertEqual(pathlib.Path('some_path').append_suffix(''), pathlib.Path('some_path'))
 
-    def test_append_suffix_empty_name_raises(self):
+    def test_append_suffix_empty_name_raises(self) -> None:
         path_with_empty_name = pathlib.Path('')
         self.assertRaises(ValueError, path_with_empty_name.append_suffix, '.test')
 
-    def test_append_suffix_invalid_suffix_raises(self):
+    def test_append_suffix_invalid_suffix_raises(self) -> None:
         path_test = pathlib.Path('some_path')
         # test suffix not starting with '.'
         self.assertRaises(ValueError, path_test.append_suffix, 'test')
         # test suffix is only '.'
         self.assertRaises(ValueError, path_test.append_suffix, '.')
 
-    def test_append_suffix_sep_or_altsep_in_suffix_raises(self):
+    def test_append_suffix_sep_or_altsep_in_suffix_raises(self) -> None:
         # Setup
         path_test = pathlib.Path('path_test')
         suffix_with_sep = '.test' + os.path.sep + 'test'
@@ -56,8 +56,8 @@ class TestAppendSuffix(unittest.TestCase):
 
 @pytest.fixture(params=[pathlib.PurePath(''), pathlib.PurePath('./test/Test1/test2/test3'), pathlib.PurePosixPath('/test/Test1/test2/test3'),
                         pathlib.PureWindowsPath('C:\\test\\Test1/test2/test3')],
-                ids=['Empty', 'Relative', 'PosixAbsolute', 'WindowsAbsolute'])
-def source_path(request: Any) -> pathlib.PurePath:
+                ids=['Empty', 'Relative', 'PosixAbsolute', 'WindowsAbsolute'])     # type: ignore
+def source_path(request: Any) -> Any:
     return request.param
 
 
@@ -66,19 +66,19 @@ def source_path(request: Any) -> pathlib.PurePath:
                 pathlib.PureWindowsPath('C:\\test\\Test1'), pathlib.PureWindowsPath('c:\\test\\test1'), pathlib.PureWindowsPath('c:\\test\\test')],
                 ids=['Empty', 'RelativeMatch', 'RelativeWinMatch', 'RelativeNoMatch',
                      'PosixAbsoluteMatch', 'PosixAbsoluteNoMatch',
-                     'WinAbsoluteMatch', 'WinAbsoluteMatchLower', 'WinAbsoluteNoMatch'])
-def old(request: Any) -> pathlib.PurePath:
+                     'WinAbsoluteMatch', 'WinAbsoluteMatchLower', 'WinAbsoluteNoMatch'])    # type: ignore
+def old(request: Any) -> Any:
     return request.param
 
 
-def test_replace_parts(source_path, old):
+def test_replace_parts(source_path: pathlib.PurePath, old: pathlib.PurePath) -> None:
     new = pathlib.PurePath('new1/new2/new3/new4')
     source_path.replace_parts(old, new)
     if source_path == pathlib.PurePath('') or old == pathlib.PurePath(''):
         assert source_path.replace_parts(old, new) == source_path
 
 
-def test_replace_parts_doctest():
+def test_replace_parts_doctest() -> None:
     """
 
     # check Path like
@@ -168,7 +168,7 @@ def test_replace_parts_doctest():
     pass
 
 
-def test_shutil_wrappers():
+def test_shutil_wrappers() -> None:
     """ test the shutil wrappers """
     path_test_dir = pathlib.Path(__file__).parent.resolve()
     path_test_file = path_test_dir / 'test.txt'
@@ -185,7 +185,7 @@ def test_shutil_wrappers():
     path_target_file.unlink()
 
 
-def test_interaction_with_original_pathlib():
+def test_interaction_with_original_pathlib() -> None:
     pathlib_original_file = pathlib_original.Path('some_path/some_path/some_path.txt')
     pathlib3x_file = pathlib.Path('some_path3x/some_path3x/some_path3x.txt')
     assert pathlib.Path.is_path_instance(pathlib_original_file)

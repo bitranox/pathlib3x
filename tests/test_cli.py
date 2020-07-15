@@ -20,8 +20,9 @@ def call_cli_command(commandline_args: str = '', log: bool = True) -> bool:
     return True
 
 
-def test_cli_commands():
-    assert not call_cli_command('--unknown_option')
-    assert call_cli_command('--version')
-    assert call_cli_command('-h')
-    assert call_cli_command('info')
+def test_cli_commands() -> None:
+    # we need the type ignores because of a bug in python 3.8.1 with setup.py test on travis
+    assert not call_cli_command('--unknown_option')     # type: ignore
+    assert call_cli_command('--version')                # type: ignore
+    assert call_cli_command('-h')                       # type: ignore
+    assert call_cli_command('info')                     # type: ignore
