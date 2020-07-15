@@ -11,11 +11,11 @@ cli_filename = 'pathlib3x_cli.py'
 path_cli_command = pathlib.Path(__file__).resolve().parent.parent / package_dir / cli_filename
 
 
-def call_cli_command(commandline_args: str = '', log: bool = True) -> bool:
+def call_cli_command(commandline_args: str = '') -> bool:
     command = ' '.join([sys.executable, str(path_cli_command), commandline_args])
     try:
         subprocess.run(command, shell=True, check=True)
-    except subprocess.CalledProcessError as exc:
+    except subprocess.CalledProcessError:
         return False
     return True
 
