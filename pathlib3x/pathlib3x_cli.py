@@ -33,7 +33,7 @@ def info() -> None:
                       prog_name=__init__conf__.shell_command,
                       message='{} version %(version)s'.format(__init__conf__.shell_command))
 @click.option('--traceback/--no-traceback', is_flag=True, type=bool, default=None, help='return traceback information on cli')
-def cli_main(traceback: Optional[bool] = None) -> None:         # pragma: no cover
+def cli_main(traceback: Optional[bool] = None) -> None:
     if traceback is not None:
         cli_exit_tools.config.traceback = traceback
 
