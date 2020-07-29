@@ -7,8 +7,9 @@ Changelog
 
 0.3.5
 -----
-2020-07-15 : development
-    -
+2020-07-29: feature release
+    - use the new pizzacutter template
+    - use cli_exit_tools
 
 0.3.4
 -----

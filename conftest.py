@@ -24,5 +24,5 @@ def pytest_cmdline_preparse(args: List[str]) -> None:
     if platform.python_implementation() != "PyPy":
         additional_mypy_args = ['--mypy']
 
-    additional_pycodestyle_args = ['--pycodestyle']
+    additional_pycodestyle_args = []
     args[:] = list(set(args + additional_mypy_args + additional_pycodestyle_args))

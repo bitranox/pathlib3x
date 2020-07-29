@@ -11,7 +11,7 @@ install_dependencies
 
 banner "this will encrypt the name and the value of a secret environment variable for travis.
 common secrets for the PizzaCutter Python Template are:
-\"CC_TEST_REPORTER_ID\" and \"pypi_password\""
+\"CC_TEST_REPORTER_ID\" and \"PYPI_PASSWORD\""
 
 read -r -p 'variable name  :' var_name
 read -r -p 'variable value :' var_value

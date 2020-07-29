@@ -1,3 +1,7 @@
+Version 0.3.5 as of 2020-07-29, see changelog_
+
+=======================================================
+
 pathlib3x
 =========
 
@@ -22,10 +26,6 @@ Python version required: 3.6.0 or newer
 
 
 
-Installation and Upgrade
-------------------------
-.. include:: ./installation.rst
-
 Usage
 -----------
 .. include:: ./usage.rst
@@ -33,6 +33,10 @@ Usage
 Usage from Commandline
 ------------------------
 .. include:: ./commandline_help.rst
+
+Installation and Upgrade
+------------------------
+.. include:: ./installation.rst
 
 Requirements
 ------------
