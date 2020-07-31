@@ -18,7 +18,7 @@ env:
         # package name
         - PACKAGE_NAME="pathlib3x"
         # the registered CLI Command
-        - CLI_COMMAND=pathlib3x
+        - CLI_COMMAND="pathlib3x"
         # the source file for rst_include (rebuild rst file includes)
         - RST_INCLUDE_SOURCE="./.docs/README_template.rst"
         # the target file for rst_include (rebuild rst file includes)
@@ -63,7 +63,7 @@ matrix:
       before_install:
           - export MYPY_STRICT="True"
           - export BUILD_DOCS="False"
-          - export DEPLOY_CHECK="False"
+          - export DEPLOY_CHECK="True"
           - export DEPLOY="False"
 
 
@@ -73,7 +73,7 @@ matrix:
       before_install:
           - export MYPY_STRICT="True"
           - export BUILD_DOCS="False"
-          - export DEPLOY_CHECK="False"
+          - export DEPLOY_CHECK="True"
           - export DEPLOY="False"
 
 
@@ -93,7 +93,7 @@ matrix:
       before_install:
           - export MYPY_STRICT="True"
           - export BUILD_DOCS="False"
-          - export DEPLOY_CHECK="False"
+          - export DEPLOY_CHECK="True"
           - export DEPLOY="False"
 
 
@@ -103,7 +103,7 @@ matrix:
       before_install:
           - export MYPY_STRICT="False"
           - export BUILD_DOCS="False"
-          - export DEPLOY_CHECK="False"
+          - export DEPLOY_CHECK="True"
           - export DEPLOY="False"
 
 
