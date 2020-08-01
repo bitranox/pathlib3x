@@ -58,7 +58,7 @@ matrix:
           - export BUILD_DOCS="False"
           - export DEPLOY_SDIST="False"
           - export DEPLOY_WHEEL="False"
-          - export DEPLOY_TEST="True"
+          - export DEPLOY_TEST="False"
           - export MYPY_STRICT="True"   
 
 
