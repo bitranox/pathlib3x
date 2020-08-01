@@ -88,7 +88,7 @@ if is_travis_deploy() and is_tagged_commit():
 
 setup_kwargs: Dict[str, Any] = dict()
 setup_kwargs['name'] = 'pathlib3x'
-setup_kwargs['version'] = 'v1.3.6'
+setup_kwargs['version'] = 'v1.3.7'
 setup_kwargs['url'] = 'https://github.com/bitranox/pathlib3x'
 setup_kwargs['packages'] = find_packages()
 setup_kwargs['package_data'] = {'pathlib3x': ['py.typed', '*.pyi', '__init__.pyi']}
