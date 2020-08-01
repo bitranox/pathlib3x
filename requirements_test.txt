@@ -3,7 +3,7 @@
 ## "setup.py install test" or "pip install <package> --install-option test"
 coloredlogs
 mypy ; platform_python_implementation != "PyPy"
-pytest
+pytest==5.4
 pytest-pycodestyle ; python_version >= "3.5"
 pytest-mypy ; platform_python_implementation != "PyPy" and python_version >= "3.5"
 pytest-runner

@@ -13,12 +13,8 @@ from setuptools import find_packages
 
 
 def is_travis_deploy() -> bool:
-    if 'DEPLOY' not in os.environ:
-        return False
-    if os.environ['DEPLOY'].lower() == 'true' and is_tagged_commit():
-        return True
-    else:
-        return False
+    if os.getenv('DEPLOY_SDIST', '') or os.getenv('DEPLOY_WHEEL', ''):
+        return is_tagged_commit()
 
 
 def is_tagged_commit() -> bool:
@@ -88,7 +84,7 @@ if is_travis_deploy() and is_tagged_commit():
 
 setup_kwargs: Dict[str, Any] = dict()
 setup_kwargs['name'] = 'pathlib3x'
-setup_kwargs['version'] = 'v1.3.6'
+setup_kwargs['version'] = 'v1.3.7'
 setup_kwargs['url'] = 'https://github.com/bitranox/pathlib3x'
 setup_kwargs['packages'] = find_packages()
 setup_kwargs['package_data'] = {'pathlib3x': ['py.typed', '*.pyi', '__init__.pyi']}
