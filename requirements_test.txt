@@ -1,9 +1,11 @@
 ## Test Requirements
 ## following Requirements will be installed temporarily for
 ## "setup.py install test" or "pip install <package> --install-option test"
+black ; platform_python_implementation != "PyPy"
+black==19.3b0 ; platform_python_implementation == "PyPy"
+codecov
 coloredlogs
+coverage
 mypy ; platform_python_implementation != "PyPy"
-pytest==5.4
-pytest-pycodestyle ; python_version >= "3.5"
-pytest-mypy ; platform_python_implementation != "PyPy" and python_version >= "3.5"
-pytest-runner
+pytest
+pytest-cov

@@ -104,6 +104,7 @@ function install_clean_virtual_environment() {
   virtualenv ~/venv
 }
 
+
 function cleanup() {
   trap '' 2 # disable Ctrl+C
   delete_virtual_environment
@@ -112,10 +113,34 @@ function cleanup() {
   trap 2 # enable Ctrl+C
 }
 
+
+function run_flake8_tests() {
+  # run flake8, settings from setup.cfg
+  my_banner "running flake8 with settings from ${project_root_dir}/setup.cfg"
+  if ! python3 -m flake8 --append-config="${project_root_dir}/setup.cfg" "$@" "${project_root_dir}"; then
+    my_banner_warning "flake8 ERROR"
+    beep
+    sleep "${sleeptime_on_error}"
+    return 1
+  fi
+}
+
+
+function run_mypy_tests() {
+  my_banner "mypy tests"
+  if ! python3 -m mypy "${project_root_dir}" --follow-imports=normal --implicit-reexport --no-warn-unused-ignores --strict; then
+    my_banner_warning "mypy tests ERROR"
+    beep
+    sleep "${sleeptime_on_error}"
+    return 1
+  fi
+}
+
+
 function run_pytest() {
   # run pytest, accepts additional pytest parameters like --disable-warnings and so on
   my_banner "running pytest with settings from pytest.ini, mypy.ini and conftest.py"
-  if ! python3 -m pytest "${project_root_dir}" "$@"; then
+  if ! python3 -m pytest "${project_root_dir}" "$@" --cov=pathlib3x; then
     my_banner_warning "pytest ERROR"
     beep
     sleep "${sleeptime_on_error}"
@@ -123,25 +148,6 @@ function run_pytest() {
   fi
 }
 
-function mypy_strict() {
-  my_banner "mypy strict"
-  if ! python3 -m mypy "${project_root_dir}" --strict --warn-unused-ignores --implicit-reexport --follow-imports=silent; then
-    my_banner_warning "mypy strict ERROR"
-    beep
-    sleep "${sleeptime_on_error}"
-    return 1
-  fi
-}
-
-function mypy_strict_with_imports() {
-  my_banner "mypy strict including imports"
-  if ! python3 -m mypy "${project_root_dir}" --strict --no-warn-unused-ignores --implicit-reexport --follow-imports=normal; then
-    my_banner_warning "mypy strict including imports ERROR"
-    beep
-    sleep "${sleeptime_on_error}"
-    return 1
-  fi
-}
 
 function install_pip_requirements_venv() {
   if test -f "${project_root_dir}/requirements.txt on virtual environment"; then
@@ -155,6 +161,7 @@ function install_pip_requirements_venv() {
     fi
   fi
 }
+
 
 function setup_install_venv() {
   if test -f "${project_root_dir}/setup.py"; then
@@ -170,6 +177,7 @@ function setup_install_venv() {
   fi
 }
 
+
 function test_commandline_interface_venv() {
   # this will fail if rotek lib directory is in the path - keep this as a reminder
   my_banner "test commandline interface on virtual environment"
@@ -182,6 +190,7 @@ function test_commandline_interface_venv() {
     return 1
   fi
 }
+
 
 function test_setup_test_venv() {
   if test -f "${project_root_dir}/setup.py"; then
@@ -196,6 +205,7 @@ function test_setup_test_venv() {
     fi
   fi
 }
+
 
 # cleanup on cntrl-c
 trap cleanup EXIT

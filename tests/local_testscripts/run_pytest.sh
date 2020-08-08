@@ -2,6 +2,9 @@
 
 own_dir="$( cd "$(dirname "${BASH_SOURCE[0]}")" || exit && pwd -P )" # this gives the full path, even for sourced scripts
 
+DO_PYTEST="True"
+
+
 # shellcheck disable=SC2050
 if [[ "True" != "True" ]]; then
     echo "exit - ${BASH_SOURCE[0]} is not configured by PizzaCutter"
@@ -21,10 +24,12 @@ function do_tests {
         # that folder is in the mypy path
         # a more loose setting here would be:
         # if ! run_pytest --disable-warnings --follow-imports=silent; then
-        if ! run_pytest; then
-            banner_warning "TESTS FAILED for ${project_root_dir}"
-        exit 1
-    fi
+        if [ "${DO_PYTEST}" == "True" ]; then
+            if ! run_pytest --disable-warnings; then
+                banner_warning "TESTS FAILED for ${project_root_dir}"
+                exit 1
+            fi
+        fi
 }
 
 do_tests
