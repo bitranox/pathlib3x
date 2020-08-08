@@ -1,7 +1,6 @@
-import platform
 from typing import List
 
-collect_ignore = ['setup.py']
+collect_ignore: List[str] = []
 
 
 def pytest_cmdline_preparse(args: List[str]) -> None:
@@ -16,13 +15,5 @@ def pytest_cmdline_preparse(args: List[str]) -> None:
         args[:] = ["-n", str(num)] + args
     """
 
-    additional_mypy_args: List[str] = list()
-    additional_pycodestyle_args: List[str] = list()
-
-    # add mypy option if not pypy
-    # if platform.python_implementation() != "PyPy" and sys.version_info >= (3, 5) and sys.version_info != (3, 6):  # type: ignore
-    if platform.python_implementation() != "PyPy":
-        additional_mypy_args = ['--mypy']
-
-    additional_pycodestyle_args = []
-    args[:] = list(set(args + additional_mypy_args + additional_pycodestyle_args))
+    additional_pytest_args: List[str] = []
+    args[:] = list(set(args + additional_pytest_args))
