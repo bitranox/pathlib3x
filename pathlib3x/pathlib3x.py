@@ -30,21 +30,8 @@ if sys.version_info < (3, 6):
 
 # backwards compatibility < python 3.10
 if sys.version_info < (3, 10):
-    import pathlib as pathlib_original
-    supports_symlinks = True
-    if os.name == "nt":
-        import nt
-
-        if sys.getwindowsversion()[:2] >= (6, 0):
-            from nt import _getfinalpathname
-        else:
-            supports_symlinks = False
-            _getfinalpathname = None
-    else:
-        nt = None
-else:
-    supports_symlinks = None
-    _getfinalpathname = None
+    # import pathlib as pathlib_original
+    pathlib_original = __import__('pathlib',  globals(), locals(), [], 0)
 # /backwards compatibility < python 3.10
 
 
