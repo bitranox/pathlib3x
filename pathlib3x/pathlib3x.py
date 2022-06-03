@@ -31,7 +31,25 @@ if sys.version_info < (3, 6):
 # backwards compatibility < python 3.10
 if sys.version_info < (3, 10):
     # import pathlib as pathlib_original
-    pathlib_original = __import__('pathlib', globals(), locals(), [], 0)
+    def import_non_local(name, custom_name=None):
+        """
+        >>> import_non_local('pathlib', 'pathlib_original')
+
+        :param name:
+        :param custom_name:
+        :return:
+        """
+        import imp
+
+        custom_name = custom_name or name
+
+        f, pathname, desc = imp.find_module(name, sys.path[1:])
+        module = imp.load_module(custom_name, f, pathname, desc)
+        f.close()
+
+        return module
+
+    pathlib_original = import_non_local('pathlib', 'pathlib_original')
 # /backwards compatibility < python 3.10
 
 
