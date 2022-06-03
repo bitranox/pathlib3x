@@ -31,7 +31,7 @@ if sys.version_info < (3, 6):
 # backwards compatibility < python 3.10
 if sys.version_info < (3, 10):
     # import pathlib as pathlib_original
-    pathlib_original = __import__('pathlib',  globals(), locals(), [], 0)
+    pathlib_original = __import__('pathlib', globals(), locals(), [], 0)
 # /backwards compatibility < python 3.10
 
 
