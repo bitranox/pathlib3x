@@ -555,10 +555,10 @@ class PurePath(object):
             return self._str
 
     # bitranox - define __fspath__ only on python >= 3.10
-    if sys.version_info >= (3, 10):
-
-        def __fspath__(self):
-            return str(self)
+    '''
+    def __fspath__(self):
+        return str(self)
+    '''
 
     def as_posix(self):
         """Return the string representation of the path with forward (/)
