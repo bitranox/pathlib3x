@@ -1,4 +1,5 @@
 __all__ = ["PurePath", "PurePosixPath", "PureWindowsPath", "Path", "PosixPath", "WindowsPath"]
+import pathlib as pathlib_original
 from .pathlib3x import *
 
 from . import __init__conf__
