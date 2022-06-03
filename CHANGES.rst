@@ -5,6 +5,10 @@ Changelog
 - new MINOR version for added functionality in a backwards compatible manner
 - new PATCH version for backwards compatible bug fixes
 
+v2.0.1
+--------
+2022-06-03: use io.encoding only on 3.10 upwards
+
 v2.0.0
 --------
 2022-06-03:

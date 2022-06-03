@@ -1130,8 +1130,10 @@ class Path(PurePath):
         Open the file pointed by this path and return a file object, as
         the built-in open() function does.
         """
-        if "b" not in mode:
-            encoding = io.text_encoding(encoding)
+        # bitranox - io.text_encoding exists only on 3.10 upwards
+        if sys.version_info <= (3, 10):
+            if "b" not in mode:
+                encoding = io.text_encoding(encoding)
         return io.open(self, mode, buffering, encoding, errors, newline)
 
     def read_bytes(self):
@@ -1145,7 +1147,9 @@ class Path(PurePath):
         """
         Open the file in text mode, read it, and close the file.
         """
-        encoding = io.text_encoding(encoding)
+        # bitranox - io.text_encoding exists only on 3.10 upwards
+        if sys.version_info <= (3, 10):
+            encoding = io.text_encoding(encoding)
         with self.open(mode="r", encoding=encoding, errors=errors) as f:
             return f.read()
 
@@ -1164,7 +1168,11 @@ class Path(PurePath):
         """
         if not isinstance(data, str):
             raise TypeError("data must be str, not %s" % data.__class__.__name__)
-        encoding = io.text_encoding(encoding)
+
+        # bitranox - io.text_encoding exists only on 3.10 upwards
+        if sys.version_info <= (3, 10):
+            encoding = io.text_encoding(encoding)
+
         with self.open(mode="w", encoding=encoding, errors=errors, newline=newline) as f:
             return f.write(data)
 

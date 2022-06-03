@@ -2,7 +2,7 @@ pathlib3x
 =========
 
 
-Version v2.0.0 as of 2022-06-03 see `Changelog`_
+Version v2.0.1 as of 2022-06-03 see `Changelog`_
 
 
 .. include:: ./badges.rst

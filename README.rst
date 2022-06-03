@@ -2,7 +2,7 @@ pathlib3x
 =========
 
 
-Version v2.0.0 as of 2022-06-03 see `Changelog`_
+Version v2.0.1 as of 2022-06-03 see `Changelog`_
 
 |build_badge| |license| |pypi| |pypi-downloads| |black|
 
@@ -468,6 +468,10 @@ Changelog
 - new MAJOR version for incompatible API changes,
 - new MINOR version for added functionality in a backwards compatible manner
 - new PATCH version for backwards compatible bug fixes
+
+v2.0.1
+--------
+2022-06-03: use io.encoding only on 3.10 upwards
 
 v2.0.0
 --------
