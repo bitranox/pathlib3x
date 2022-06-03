@@ -1111,7 +1111,7 @@ class Path(PurePath):
                     check_eloop(e)
             return p
         else:
-            return pathlib_original.resolve(self, strict=strict)
+            return pathlib_original.Path.resolve(self, strict=strict)
 
     def stat(self, *, follow_symlinks=True):
         """
