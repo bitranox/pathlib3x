@@ -28,6 +28,26 @@ if sys.version_info < (3, 6):
     raise ImportError("pathlib3x is only compatible with Python 3.6 or newer")
 # /bitranox addon
 
+# backwards compatibility < python 3.10
+if sys.version_info < (3, 10):
+    import pathlib as pathlib_original
+    supports_symlinks = True
+    if os.name == "nt":
+        import nt
+
+        if sys.getwindowsversion()[:2] >= (6, 0):
+            from nt import _getfinalpathname
+        else:
+            supports_symlinks = False
+            _getfinalpathname = None
+    else:
+        nt = None
+else:
+    supports_symlinks = None
+    _getfinalpathname = None
+# /backwards compatibility < python 3.10
+
+
 __all__ = [
     "PurePath",
     "PurePosixPath",
@@ -1068,27 +1088,30 @@ class Path(PurePath):
         Make the path absolute, resolving all symlinks on the way and also
         normalizing it.
         """
+        if sys.version_info >= (3, 10):
 
-        def check_eloop(e):
-            winerror = getattr(e, "winerror", 0)
-            if e.errno == ELOOP or winerror == _WINERROR_CANT_RESOLVE_FILENAME:
-                raise RuntimeError("Symlink loop from %r" % e.filename)
+            def check_eloop(e):
+                winerror = getattr(e, "winerror", 0)
+                if e.errno == ELOOP or winerror == _WINERROR_CANT_RESOLVE_FILENAME:
+                    raise RuntimeError("Symlink loop from %r" % e.filename)
 
-        try:
-            s = os.path.realpath(self, strict=strict)
-        except OSError as e:
-            check_eloop(e)
-            raise
-        p = self._from_parts((s,))
-
-        # In non-strict mode, realpath() doesn't raise on symlink loops.
-        # Ensure we get an exception by calling stat()
-        if not strict:
             try:
-                p.stat()
+                s = os.path.realpath(self, strict=strict)
             except OSError as e:
                 check_eloop(e)
-        return p
+                raise
+            p = self._from_parts((s,))
+
+            # In non-strict mode, realpath() doesn't raise on symlink loops.
+            # Ensure we get an exception by calling stat()
+            if not strict:
+                try:
+                    p.stat()
+                except OSError as e:
+                    check_eloop(e)
+            return p
+        else:
+            return pathlib_original.resolve(self, strict=strict)
 
     def stat(self, *, follow_symlinks=True):
         """
