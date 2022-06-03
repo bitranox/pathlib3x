@@ -471,7 +471,9 @@ Changelog
 
 v2.0.0
 --------
-2022-06-03: upgrade to pathlib python 3.11a0 version
+2022-06-03:
+    - upgrade to pathlib python 3.11a0 version
+    - upgrade to github actions @v3
 
 v1.3.9
 --------
