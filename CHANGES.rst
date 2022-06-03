@@ -6,6 +6,10 @@ Changelog
 - new PATCH version for backwards compatible bug fixes
 
 
+v2.0.2.1
+--------
+2022-06-03: use io.encoding only on 3.10 upwards
+
 v2.0.2
 --------
 2022-06-03: define __fspath__ only on python >= 3.10
