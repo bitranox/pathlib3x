@@ -4,7 +4,6 @@
 # stored under pathlib.py.txt for later, quicker comparison
 import inspect
 import shutil
-
 # /bitranox addon
 
 # Original Pathlib imports
@@ -26,6 +25,9 @@ from urllib.parse import quote_from_bytes as urlquote_from_bytes
 # bitranox addon
 if sys.version_info < (3, 6):
     raise ImportError("pathlib3x is only compatible with Python 3.6 or newer")
+
+if sys.version_info < (3, 10):
+    import pathlib_original
 # /bitranox addon
 
 __all__ = [
@@ -1064,35 +1066,38 @@ class Path(PurePath):
         return self._from_parts([self.cwd()] + self._parts)
 
     def resolve(self, strict=False):
-        """
-        Make the path absolute, resolving all symlinks on the way and also
-        normalizing it.
-        """
+        if sys.version_info >= (3, 10):
+            """
+            Make the path absolute, resolving all symlinks on the way and also
+            normalizing it.
+            """
 
-        def check_eloop(e):
-            winerror = getattr(e, "winerror", 0)
-            if e.errno == ELOOP or winerror == _WINERROR_CANT_RESOLVE_FILENAME:
-                raise RuntimeError("Symlink loop from %r" % e.filename)
+            def check_eloop(e):
+                winerror = getattr(e, "winerror", 0)
+                if e.errno == ELOOP or winerror == _WINERROR_CANT_RESOLVE_FILENAME:
+                    raise RuntimeError("Symlink loop from %r" % e.filename)
 
-        try:
-            if sys.version_info >= (3, 10):
-                s = os.path.realpath(self, strict=strict)
-            else:
-                # bitranox - option strict will most probably not work correctly
-                s = os.path.realpath(self)
-        except OSError as e:
-            check_eloop(e)
-            raise
-        p = self._from_parts((s,))
-
-        # In non-strict mode, realpath() doesn't raise on symlink loops.
-        # Ensure we get an exception by calling stat()
-        if not strict:
             try:
-                p.stat()
+                if sys.version_info >= (3, 10):
+                    s = os.path.realpath(self, strict=strict)
+                else:
+                    # bitranox - option strict will most probably not work correctly
+                    s = os.path.realpath(self)
             except OSError as e:
                 check_eloop(e)
-        return p
+                raise
+            p = self._from_parts((s,))
+
+            # In non-strict mode, realpath() doesn't raise on symlink loops.
+            # Ensure we get an exception by calling stat()
+            if not strict:
+                try:
+                    p.stat()
+                except OSError as e:
+                    check_eloop(e)
+            return p
+        else:
+            return pathlib_original.Path(self).resolve(strict=strict)
 
     def stat(self, *, follow_symlinks=True):
         """
