@@ -1131,7 +1131,7 @@ class Path(PurePath):
         the built-in open() function does.
         """
         # bitranox - io.text_encoding exists only on 3.10 upwards
-        if sys.version_info <= (3, 10):
+        if sys.version_info >= (3, 10):
             if "b" not in mode:
                 encoding = io.text_encoding(encoding)
         return io.open(self, mode, buffering, encoding, errors, newline)
@@ -1148,7 +1148,7 @@ class Path(PurePath):
         Open the file in text mode, read it, and close the file.
         """
         # bitranox - io.text_encoding exists only on 3.10 upwards
-        if sys.version_info <= (3, 10):
+        if sys.version_info >= (3, 10):
             encoding = io.text_encoding(encoding)
         with self.open(mode="r", encoding=encoding, errors=errors) as f:
             return f.read()
@@ -1170,7 +1170,7 @@ class Path(PurePath):
             raise TypeError("data must be str, not %s" % data.__class__.__name__)
 
         # bitranox - io.text_encoding exists only on 3.10 upwards
-        if sys.version_info <= (3, 10):
+        if sys.version_info >= (3, 10):
             encoding = io.text_encoding(encoding)
 
         with self.open(mode="w", encoding=encoding, errors=errors, newline=newline) as f:
