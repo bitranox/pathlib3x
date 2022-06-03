@@ -1,48 +1,13 @@
-# taken from :
-# pathlib : https://github.com/python/typeshed/blob/master/stdlib/3/pathlib.pyi
-# OpenBinaryMode..., OpenTextMode, StrPath from https://raw.githubusercontent.com/python/typeshed/master/stdlib/2and3/_typeshed/__init__.pyi
-# shutil from https://github.com/python/typeshed/blob/master/stdlib/2and3/shutil.pyi
-# check out https://stackoverflow.com/questions/35602541/create-pyi-files-automatically/35706456
-# https://github.com/edreamleo/make-stub-files
-# in order for mypy finding the stub file, pathlib3x needs to be installed or You need to pass the package or directory of pathlib3x explicitly to mypy
-
 import sys
-from typing import Optional
-
-from collections.abc import Callable, Iterable, Sequence
-
-if sys.version_info >= (3, 11):
-    from _typeshed import (
-        OpenBinaryMode,
-        OpenBinaryModeReading,
-        OpenBinaryModeUpdating,
-        OpenBinaryModeWriting,
-        OpenTextMode,
-        Self,
-        StrPath,
-    )
-
-elif sys.version_info >= (3, 10):
-    from _typeshed import (
-        OpenBinaryMode,
-        OpenBinaryModeReading,
-        OpenBinaryModeUpdating,
-        OpenBinaryModeWriting,
-        OpenTextMode,
-        StrPath,
-    )
-    from ._typeshed import (Self)
-else:
-    from ._typeshed import (
-        OpenBinaryMode,
-        OpenBinaryModeReading,
-        OpenBinaryModeUpdating,
-        OpenBinaryModeWriting,
-        OpenTextMode,
-        Self,
-        StrPath,
-    )
-
+from _typeshed import (
+    OpenBinaryMode,
+    OpenBinaryModeReading,
+    OpenBinaryModeUpdating,
+    OpenBinaryModeWriting,
+    OpenTextMode,
+    Self,
+    StrPath,
+)
 from collections.abc import Generator, Sequence
 from io import BufferedRandom, BufferedReader, BufferedWriter, FileIO, TextIOWrapper
 from os import PathLike, stat_result
@@ -104,15 +69,6 @@ class PurePath(PathLike[str]):
     def parent(self: Self) -> Self: ...
     if sys.version_info >= (3, 9) and sys.version_info < (3, 11):
         def __class_getitem__(cls, type: Any) -> GenericAlias: ...
-
-    #############################
-    # Bitranox Addons
-    #############################
-    def append_suffix(self: Self, suffix: str) -> Self: ...
-    def replace_parts(self: Self, old: Self, new: Self) -> Self: ...
-    @staticmethod
-    def is_path_instance(__obj: object) -> bool: ...
-
 
 class PurePosixPath(PurePath): ...
 class PureWindowsPath(PurePath): ...
@@ -244,24 +200,6 @@ class Path(PurePath):
         def write_text(self, data: str, encoding: str | None = ..., errors: str | None = ...) -> int: ...
     if sys.version_info >= (3, 8):
         def link_to(self, target: StrPath | bytes) -> None: ...
-
-    # Bitranox Addon
-    def copy(self: Self, target: PurePath, follow_symlinks: bool = ...) -> None: ...
-    def copy2(self: Self, target: PurePath, follow_symlinks: bool = ...) -> None: ...
-    def copyfile(self: Self, target: PurePath, follow_symlinks: bool = ...) -> None: ...
-    def copymode(self: Self, target: PurePath, follow_symlinks: bool = ...) -> None: ...
-    def copystat(self: Self, target: PurePath, follow_symlinks: bool = ...) -> None: ...
-    def copytree(self: Self,
-                 target: PurePath,
-                 symlinks: bool = ...,
-                 follow_symlinks: bool = ...,
-                 ignore: None | Callable[[str, list[str]], Iterable[str]] | Callable[[StrPath, list[str]], Iterable[str]] = ...,
-                 copy_function: Callable[[str, str], None] = ...,
-                 ignore_dangling_symlinks: bool = ...,
-                 dirs_exist_ok: bool = ...,
-                 ) -> None: ...
-    def rmtree(self: Self,  ignore_errors: bool = ..., onerror: Optional[Callable[[Any, Any, Any], Any]] = ...) -> None: ...
-
 
 class PosixPath(Path, PurePosixPath): ...
 class WindowsPath(Path, PureWindowsPath): ...

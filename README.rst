@@ -2,21 +2,23 @@ pathlib3x
 =========
 
 
-Version v1.3.9 as of 2020-10-09 see `Changelog`_
+Version v1.3.9 as of 2022-06-03 see `Changelog`_
 
-|travis_build| |license| |pypi|
+|build_badge| |license| |pypi| |pypi-downloads| |black|
 
 |codecov| |better_code| |cc_maintain| |cc_issues| |cc_coverage| |snyk|
 
 
-.. |travis_build| image:: https://img.shields.io/travis/bitranox/pathlib3x/master.svg
-   :target: https://travis-ci.org/bitranox/pathlib3x
+
+.. |build_badge| image:: https://github.com/bitranox/pathlib3x/actions/workflows/python-package.yml/badge.svg
+   :target: https://github.com/bitranox/pathlib3x/actions/workflows/python-package.yml
+
 
 .. |license| image:: https://img.shields.io/github/license/webcomics/pywine.svg
    :target: http://en.wikipedia.org/wiki/MIT_License
 
 .. |jupyter| image:: https://mybinder.org/badge_logo.svg
- :target: https://mybinder.org/v2/gh/bitranox/pathlib3x/master?filepath=pathlib3x.ipynb
+   :target: https://mybinder.org/v2/gh/bitranox/pathlib3x/master?filepath=pathlib3x.ipynb
 
 .. for the pypi status link note the dashes, not the underscore !
 .. |pypi| image:: https://img.shields.io/pypi/status/pathlib3x?label=PyPI%20Package
@@ -45,6 +47,10 @@ Version v1.3.9 as of 2020-10-09 see `Changelog`_
 
 .. |black| image:: https://img.shields.io/badge/code%20style-black-000000.svg
    :target: https://github.com/psf/black
+
+.. |pypi-downloads| image:: https://img.shields.io/pypi/dm/pathlib3x
+   :target: https://pypi.org/project/pathlib3x/
+   :alt: PyPI - Downloads
 
 Backport of Python 3.10.0a0 pathlib for Python 3.6, 3.7, 3.8, 3.9 with a few tweaks to make it compatible.
 
@@ -113,9 +119,9 @@ automated tests, Travis Matrix, Documentation, Badges, etc. are managed with `Pi
 
 Python version required: 3.6.0 or newer
 
-tested on linux "bionic" with python 3.6, 3.7, 3.8, 3.9-dev, pypy3 - architectures: amd64, ppc64le, s390x, arm64
+tested on recent linux with python 3.6, 3.7, 3.8, 3.9, 3.10, pypy-3.8 - architectures: amd64
 
-`100% (for my added functions) code coverage <https://codecov.io/gh/bitranox/pathlib3x>`_, mypy static type checking ,tested under `Linux, macOS, Windows <https://travis-ci.org/bitranox/pathlib3x>`_, automatic daily builds and monitoring
+`100% (for my added functions) code coverage <https://codecov.io/gh/bitranox/pathlib3x>`_, flake8 style checking ,mypy static type checking ,tested under `Linux, macOS, Windows <https://github.com/bitranox/pathlib3x/actions/workflows/python-package.yml>`_, automatic daily builds and monitoring
 
 ----
 
@@ -343,12 +349,11 @@ This can happen easily if You have many Modules. Just keep it in mind !
 Usage from Commandline
 ------------------------
 
-.. code-block:: bash
+.. code-block::
 
    Usage: pathlib3x [OPTIONS] COMMAND [ARGS]...
 
-     backport of pathlib 3.10 to python 3.6, 3.7, 3.8, 3.9 with a few
-     extensions
+     backport of pathlib 3.10 to python 3.6, 3.7, 3.8, 3.9 with a few extensions
 
    Options:
      --version                     Show the version and exit.
@@ -364,28 +369,28 @@ Installation and Upgrade
 - Before You start, its highly recommended to update pip and setup tools:
 
 
-.. code-block:: bash
+.. code-block::
 
     python -m pip --upgrade pip
     python -m pip --upgrade setuptools
 
 - to install the latest release from PyPi via pip (recommended):
 
-.. code-block:: bash
+.. code-block::
 
     python -m pip install --upgrade pathlib3x
 
 - to install the latest version from github via pip:
 
 
-.. code-block:: bash
+.. code-block::
 
     python -m pip install --upgrade git+https://github.com/bitranox/pathlib3x.git
 
 
 - include it into Your requirements.txt:
 
-.. code-block:: bash
+.. code-block::
 
     # Insert following line in Your requirements.txt:
     # for the latest Release on pypi:
@@ -400,7 +405,7 @@ Installation and Upgrade
 
 - to install the latest development version from source code:
 
-.. code-block:: bash
+.. code-block::
 
     # cd ~
     $ git clone https://github.com/bitranox/pathlib3x.git

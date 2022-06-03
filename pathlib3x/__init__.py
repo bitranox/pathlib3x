@@ -2,6 +2,7 @@ __all__ = ["PurePath", "PurePosixPath", "PureWindowsPath", "Path", "PosixPath", 
 from .pathlib3x import *
 
 from . import __init__conf__
+
 __title__ = __init__conf__.title
 __version__ = __init__conf__.version
 __name__ = __init__conf__.name
