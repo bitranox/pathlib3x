@@ -5,6 +5,10 @@ Changelog
 - new MINOR version for added functionality in a backwards compatible manner
 - new PATCH version for backwards compatible bug fixes
 
+v2.0.0
+--------
+2022-06-03: upgrade to pathlib python 3.11a0 version
+
 v1.3.9
 --------
 2020-10-09: service release
