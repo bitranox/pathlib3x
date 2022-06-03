@@ -52,13 +52,13 @@ Version v2.0.0 as of 2022-06-03 see `Changelog`_
    :target: https://pypi.org/project/pathlib3x/
    :alt: PyPI - Downloads
 
-Backport of Python 3.10.0a0 pathlib for Python 3.6, 3.7, 3.8, 3.9 with a few tweaks to make it compatible.
+Backport of Python 3.11.0a0 pathlib for Python 3.6, 3.7, 3.8, 3.9, 3.10 with a few tweaks to make it compatible.
 
 added wrappers to shutil copy, copy2, rmtree, copytree and other useful functions.
 
 fully typed PEP561 package
 
-this will be updated periodically to have the latest version of pathlib available on 3.6, 3.7, 3.8, 3.9 and probably others.
+this will be updated periodically to have the latest version of pathlib available on 3.6, 3.7, 3.8, 3.9, 3.10 and probably others.
 
 WHY pathlib3x ?
 ===============
