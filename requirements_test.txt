@@ -6,6 +6,8 @@ black==19.3b0 ; platform_python_implementation == "PyPy"
 codecov
 coloredlogs
 coverage
+flake8
 mypy ; platform_python_implementation != "PyPy"
 pytest
 pytest-cov
+pytest-runner

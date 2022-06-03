@@ -2,9 +2,13 @@
 # to get PathLike, StrPath, OpenBinaryMode, OpenTextMode
 
 import sys
-from typing import Union
+from typing import TypeVar, Union
 # https://github.com/python/typeshed/blob/master/third_party/2and3/typing_extensions.pyi
 from typing_extensions import Literal
+
+# Use for "self" annotations:
+#   def __enter__(self: Self) -> Self: ...
+Self = TypeVar("Self")  # noqa: Y001
 
 from typing import Text
 if sys.version_info >= (3, 6):

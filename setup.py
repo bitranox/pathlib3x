@@ -37,9 +37,7 @@ def strip_links_from_required(l_required: List[str]) -> List[str]:
 
 
 # will be overwritten with long_description if exists !
-long_description = (
-    "backport of pathlib 3.10 to python 3.6, 3.7, 3.8, 3.9 with a few extensions"
-)
+long_description = "backport of pathlib 3.10 to python 3.6, 3.7, 3.8, 3.9 with a few extensions"
 path_readme = pathlib.Path(__file__).parent / "README.rst"
 
 if path_readme.exists():
@@ -57,9 +55,7 @@ def get_requirements_from_file(requirements_filename: str) -> List[str]:
     """
     l_requirements = list()
     try:
-        with open(
-            str(pathlib.Path(__file__).parent / requirements_filename), mode="r"
-        ) as requirements_file:
+        with open(str(pathlib.Path(__file__).parent / requirements_filename), mode="r") as requirements_file:
             for line in requirements_file:
                 line_data = get_line_data(line)
                 if line_data:
@@ -88,13 +84,11 @@ if is_travis_deploy() and is_tagged_commit():
 
 setup_kwargs: Dict[str, Any] = dict()
 setup_kwargs["name"] = "pathlib3x"
-setup_kwargs["version"] = "v1.3.9"
+setup_kwargs["version"] = "v2.0.0"
 setup_kwargs["url"] = "https://github.com/bitranox/pathlib3x"
 setup_kwargs["packages"] = find_packages()
 setup_kwargs["package_data"] = {"pathlib3x": ["py.typed", "*.pyi", "__init__.pyi"]}
-setup_kwargs[
-    "description"
-] = "backport of pathlib 3.10 to python 3.6, 3.7, 3.8, 3.9 with a few extensions"
+setup_kwargs["description"] = "backport of pathlib 3.10 to python 3.6, 3.7, 3.8, 3.9 with a few extensions"
 setup_kwargs["long_description"] = long_description
 setup_kwargs["long_description_content_type"] = "text/x-rst"
 setup_kwargs["author"] = "Robert Nowotny"
@@ -108,9 +102,7 @@ setup_kwargs["classifiers"] = [
     "Programming Language :: Python",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
-setup_kwargs["entry_points"] = {
-    "console_scripts": ["pathlib3x = pathlib3x.pathlib3x_cli:cli_main"]
-}
+setup_kwargs["entry_points"] = {"console_scripts": ["pathlib3x = pathlib3x.pathlib3x_cli:cli_main"]}
 # minimally needs to run tests - no project requirements here
 setup_kwargs["tests_require"] = tests_require
 # specify what a project minimally needs to run correctly
