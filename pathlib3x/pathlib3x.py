@@ -554,8 +554,11 @@ class PurePath(object):
             self._str = self._format_parsed_parts(self._drv, self._root, self._parts) or "."
             return self._str
 
-    def __fspath__(self):
-        return str(self)
+    # bitranox - define __fspath__ only on python >= 3.10
+    if sys.version_info >= (3, 10):
+
+        def __fspath__(self):
+            return str(self)
 
     def as_posix(self):
         """Return the string representation of the path with forward (/)
