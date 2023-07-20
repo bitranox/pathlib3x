@@ -46,7 +46,7 @@ test = [
     "coloredlogs",
     "coverage",
     "flake8",
-    "mypy ; platform_python_implementation != 'PyPy'",
+    "mypy",
     "pytest",
     "pytest-cov",
     "pytest-runner",
