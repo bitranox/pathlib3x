@@ -2,17 +2,19 @@ pathlib3x
 =========
 
 
-Version v2.0.2.1 as of 2022-06-03 see `Changelog`_
+Version v2.0.3 as of 2023-07-20 see `Changelog`_
 
-|build_badge| |license| |pypi| |pypi-downloads| |black|
-
-|codecov| |better_code| |cc_maintain| |cc_issues| |cc_coverage| |snyk|
+|build_badge| |codeql| |license| |pypi|
+|pypi-downloads| |black| |codecov| |cc_maintain| |cc_issues| |cc_coverage| |snyk|
 
 
 
 .. |build_badge| image:: https://github.com/bitranox/pathlib3x/actions/workflows/python-package.yml/badge.svg
    :target: https://github.com/bitranox/pathlib3x/actions/workflows/python-package.yml
 
+
+.. |codeql| image:: https://github.com/bitranox/pathlib3x/actions/workflows/codeql-analysis.yml/badge.svg?event=push
+   :target: https://github.com//bitranox/pathlib3x/actions/workflows/codeql-analysis.yml
 
 .. |license| image:: https://img.shields.io/github/license/webcomics/pywine.svg
    :target: http://en.wikipedia.org/wiki/MIT_License
@@ -27,9 +29,6 @@ Version v2.0.2.1 as of 2022-06-03 see `Changelog`_
 .. |codecov| image:: https://img.shields.io/codecov/c/github/bitranox/pathlib3x
    :target: https://codecov.io/gh/bitranox/pathlib3x
 
-.. |better_code| image:: https://bettercodehub.com/edge/badge/bitranox/pathlib3x?branch=master
-   :target: https://bettercodehub.com/results/bitranox/pathlib3x
-
 .. |cc_maintain| image:: https://img.shields.io/codeclimate/maintainability-percentage/bitranox/pathlib3x?label=CC%20maintainability
    :target: https://codeclimate.com/github/bitranox/pathlib3x/maintainability
    :alt: Maintainability
@@ -42,7 +41,7 @@ Version v2.0.2.1 as of 2022-06-03 see `Changelog`_
    :target: https://codeclimate.com/github/bitranox/pathlib3x/test_coverage
    :alt: Code Coverage
 
-.. |snyk| image:: https://img.shields.io/snyk/vulnerabilities/github/bitranox/pathlib3x
+.. |snyk| image:: https://snyk.io/test/github/bitranox/pathlib3x/badge.svg
    :target: https://snyk.io/test/github/bitranox/pathlib3x
 
 .. |black| image:: https://img.shields.io/badge/code%20style-black-000000.svg
@@ -114,14 +113,14 @@ If You have some nice features for pathlib, let me know - I will consider to int
 
 ----
 
-automated tests, Travis Matrix, Documentation, Badges, etc. are managed with `PizzaCutter <https://github
+automated tests, Github Actions, Documentation, Badges, etc. are managed with `PizzaCutter <https://github
 .com/bitranox/PizzaCutter>`_ (cookiecutter on steroids)
 
-Python version required: 3.6.0 or newer
+Python version required: 3.8.0 or newer
 
-tested on recent linux with python 3.6, 3.7, 3.8, 3.9, 3.10, pypy-3.8 - architectures: amd64
+tested on recent linux with python 3.8, 3.9, 3.10, 3.11, 3.12-dev, pypy-3.9, pypy-3.10 - architectures: amd64
 
-`100% (for my added functions) code coverage <https://codecov.io/gh/bitranox/pathlib3x>`_, flake8 style checking ,mypy static type checking ,tested under `Linux, macOS, Windows <https://github.com/bitranox/pathlib3x/actions/workflows/python-package.yml>`_, automatic daily builds and monitoring
+`100% (for my added functions) code coverage <https://codeclimate.com/github/bitranox/pathlib3x/test_coverage>`_, flake8 style checking ,mypy static type checking ,tested under `Linux, macOS, Windows <https://github.com/bitranox/pathlib3x/actions/workflows/python-package.yml>`_, automatic daily builds and monitoring
 
 ----
 
@@ -380,6 +379,13 @@ Installation and Upgrade
 
     python -m pip install --upgrade pathlib3x
 
+
+- to install the latest release from PyPi via pip, including test dependencies:
+
+.. code-block::
+
+    python -m pip install --upgrade pathlib3x[test]
+
 - to install the latest version from github via pip:
 
 
@@ -403,14 +409,14 @@ Installation and Upgrade
     python -m pip install --upgrade -r /<path>/requirements.txt
 
 
-- to install the latest development version from source code:
+- to install the latest development version, including test dependencies from source code:
 
 .. code-block::
 
     # cd ~
     $ git clone https://github.com/bitranox/pathlib3x.git
     $ cd pathlib3x
-    python setup.py install
+    python -m pip install -e .[test]
 
 - via makefile:
   makefiles are a very convenient way to install. Here we can do much more,
@@ -468,6 +474,26 @@ Changelog
 - new MAJOR version for incompatible API changes,
 - new MINOR version for added functionality in a backwards compatible manner
 - new PATCH version for backwards compatible bug fixes
+
+v2.0.3
+---------
+2023-07-13:
+    - require minimum python 3.8
+    - remove python 3.7 tests
+    - introduce PEP517 packaging standard
+    - introduce pyproject.toml build-system
+    - remove mypy.ini
+    - remove pytest.ini
+    - remove setup.cfg
+    - remove setup.py
+    - remove .bettercodehub.yml
+    - remove .travis.yml
+    - update black config
+    - clean ./tests/test_cli.py
+    - add codeql badge
+    - move 3rd_party_stubs outside the src directory to ``./.3rd_party_stubs``
+    - add pypy 3.10 tests
+    - add python 3.12-dev tests
 
 
 v2.0.2.1

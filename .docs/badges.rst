@@ -1,12 +1,14 @@
-|build_badge| |license| |pypi| |pypi-downloads| |black|
-
-|codecov| |better_code| |cc_maintain| |cc_issues| |cc_coverage| |snyk|
+|build_badge| |codeql| |license| |pypi| 
+|pypi-downloads| |black| |codecov| |cc_maintain| |cc_issues| |cc_coverage| |snyk|
 
 
 
 .. |build_badge| image:: https://github.com/bitranox/pathlib3x/actions/workflows/python-package.yml/badge.svg
    :target: https://github.com/bitranox/pathlib3x/actions/workflows/python-package.yml
 
+
+.. |codeql| image:: https://github.com/bitranox/pathlib3x/actions/workflows/codeql-analysis.yml/badge.svg?event=push
+   :target: https://github.com//bitranox/pathlib3x/actions/workflows/codeql-analysis.yml
 
 .. |license| image:: https://img.shields.io/github/license/webcomics/pywine.svg
    :target: http://en.wikipedia.org/wiki/MIT_License
@@ -21,9 +23,6 @@
 .. |codecov| image:: https://img.shields.io/codecov/c/github/bitranox/pathlib3x
    :target: https://codecov.io/gh/bitranox/pathlib3x
 
-.. |better_code| image:: https://bettercodehub.com/edge/badge/bitranox/pathlib3x?branch=master
-   :target: https://bettercodehub.com/results/bitranox/pathlib3x
-
 .. |cc_maintain| image:: https://img.shields.io/codeclimate/maintainability-percentage/bitranox/pathlib3x?label=CC%20maintainability
    :target: https://codeclimate.com/github/bitranox/pathlib3x/maintainability
    :alt: Maintainability
@@ -36,7 +35,7 @@
    :target: https://codeclimate.com/github/bitranox/pathlib3x/test_coverage
    :alt: Code Coverage
 
-.. |snyk| image:: https://img.shields.io/snyk/vulnerabilities/github/bitranox/pathlib3x
+.. |snyk| image:: https://snyk.io/test/github/bitranox/pathlib3x/badge.svg
    :target: https://snyk.io/test/github/bitranox/pathlib3x
 
 .. |black| image:: https://img.shields.io/badge/code%20style-black-000000.svg

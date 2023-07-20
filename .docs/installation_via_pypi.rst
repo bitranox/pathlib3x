@@ -3,3 +3,11 @@
 .. code-block::
 
     python -m pip install --upgrade pathlib3x
+
+
+- to install the latest release from PyPi via pip, including test dependencies:
+
+.. code-block::
+
+    python -m pip install --upgrade pathlib3x[test]
+
