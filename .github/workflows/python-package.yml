@@ -190,7 +190,7 @@ jobs:
 
     - name: Setting up Python ${{ matrix.python-version }}
       # see: https://github.com/actions/setup-python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v6
       with:
         python-version: ${{ matrix.python-version }}
 
